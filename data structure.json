@@ -1,0 +1,27 @@
+{
+	"device":{
+		"state":"current state",
+		"callbacks":
+	},
+
+	
+	"Pixel_2_XL_wifi":{
+		"state":"on", // "state":"off",
+		"callbacks":{
+			"on":"add function here", // TODO
+			"off":"add function here" // TODO
+		}
+	},
+	"Pixel_2_XL_wifi_ap":{
+		"state":"i_dont_have_wifi",
+		"callbacks":{}
+	},
+
+	"livingroom_lamp":{
+		"state":"on", // "state":"off"
+		"callbacks":{
+			"on":"add function here", // TODO
+			"off":"add function here" // TODO
+		}
+	}
+}

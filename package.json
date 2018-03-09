@@ -1,0 +1,30 @@
+{
+  "name": "iot",
+  "version": "1.0.0",
+  "description": "stuff for iot",
+  "main": "app.js",
+  "scripts": {
+    "test": "clear;node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yeltnar/iot.git"
+  },
+  "author": "Andrew Brantley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yeltnar/iot/issues"
+  },
+  "homepage": "https://github.com/yeltnar/iot#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "config": "^1.29.4",
+    "express": "^4.16.2",
+    "mongoose": "^5.0.6",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^9.4.6"
+  }
+}
