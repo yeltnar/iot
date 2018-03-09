@@ -1,4 +1,4 @@
-import * as config from 'config';
+const config = require('config');
 import {endpointsInit} from "./endpoints/endpoints";
 import {iftttInit} from "./connectors/ifttt";
 import {Things, Thing} from "./class/thing";
