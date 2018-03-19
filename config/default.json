@@ -1,0 +1,8 @@
+{
+	"express":{
+		"port":3001
+	},
+	"socket":{
+		"url":"ws://drew-iot.mybluemix.net/"
+	}
+}
