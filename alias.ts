@@ -51,7 +51,7 @@ function aliasInit( things ){
 			exec("git pull",(err, stdout, stderr)=>{
 				console.log("about to restart");
 				resolve( 'exiting app '+stdout );
-				exec("tsc app.ts outdir",(err, stdout, stderr)=>{
+				exec("tsc app.ts --outDir outdir",(err, stdout, stderr)=>{
 					setTimeout(()=>{ exec("pm2 restart all",(err, stdout, stderr)=>{}); },4000)
 				});
 			});
