@@ -18,6 +18,13 @@ function aliasInit( things ){
 		arr.push( things.getThing("bedroom_light").callCallback("off") );
 		return Promise.all(arr);
 	});
+	alias.addCallback("bedtime", ()=>{
+		let arr = [];
+		arr.push( things.getThing("desk_socket").callCallback("off") );
+		arr.push( things.getThing("living_room_light").callCallback("off") );
+		arr.push( things.getThing("bedroom_light").callCallback("off") );
+		return Promise.all(arr);
+	});
 	alias.addCallback("move_to_livingroom", ()=>{
 		let arr = [];
 		arr.push( things.getThing("living_room_light").callCallback("on") );
@@ -44,7 +51,9 @@ function aliasInit( things ){
 			exec("git pull",(err, stdout, stderr)=>{
 				console.log("about to restart");
 				resolve( 'exiting app '+stdout );
-				setTimeout(()=>{ exec("pm2 restart all",(err, stdout, stderr)=>{}); },4000)
+				exec("tsc app.ts outdir",(err, stdout, stderr)=>{
+					setTimeout(()=>{ exec("pm2 restart all",(err, stdout, stderr)=>{}); },4000)
+				});
 			});
 		});
 	});

@@ -4,7 +4,8 @@
   "description": "stuff for iot",
   "main": "app.js",
   "scripts": {
-    "test": "clear;ts-node app.ts"
+    "test": "clear;ts-node app.ts",
+	   "start":"tsc app.ts --outDir outdir;pm2 start outdir/app.js;pm2 logs"
   },
   "repository": {
     "type": "git",
