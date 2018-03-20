@@ -6,7 +6,7 @@ function aliasInit( things ){
 		let arr = [];
 		arr.push( things.getThing("desk_socket").callCallback("on") );
 		arr.push( things.getThing("living_room_light").callCallback("on") );
-		arr.push( things.getThing("bedroom_light").callCallback("on") );
+		//arr.push( things.getThing("bedroom_light").callCallback("on") );
 		return Promise.all(arr);
 	});
 	alias.addCallback("leaving", ()=>{

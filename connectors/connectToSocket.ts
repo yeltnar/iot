@@ -3,7 +3,12 @@ const WebSocket = require('ws');
 
 function connectToSocketInit(socketConfig, things:Things){
  
-	const ws = new WebSocket(socketConfig.url);
+ 	try{
+		const ws = new WebSocket(socketConfig.url);
+	}catch(e){
+		console.log("server connection failed");
+		setTimeout(connectToSocketInit(socketConfig, things),socketConfig.retryFrequency);
+	}
 	 
 	ws.on('open', function open() {
 
@@ -36,6 +41,11 @@ function connectToSocketInit(socketConfig, things:Things){
 		}else{
 			console.log(data);
 		}
+	});
+
+	ws.on('close', function(data){
+		console.log("\n\n\nsocket closed "+data+" - Date.now()");
+		connectToSocketInit(socketConfig, things);
 	});
 
 }

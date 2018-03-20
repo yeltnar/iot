@@ -3,6 +3,7 @@
 		"port":3001
 	},
 	"socket":{
-		"url":"ws://drew-iot.mybluemix.net/"
+		"url":"ws://drew-iot.mybluemix.net/",
+		"retryFrequency":1000
 	}
 }
