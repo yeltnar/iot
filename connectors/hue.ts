@@ -50,12 +50,12 @@ var options = { method: 'PUT',
 function hueInit(hueConfig, things){
 
 	let light1 = new Thing("living_room_light", things);
-	light1.addCallback("off", ()=>{ console.log("living_room_light on");return setLightState(1, false); })
-	light1.addCallback("on", ()=>{ console.log("living_room_light off");return setLightState(1, true); })
+	light1.addCallback("off", ()=>{ console.log("living_room_light on");return setLightState(1, true); })
+	light1.addCallback("on", ()=>{ console.log("living_room_light off");return setLightState(1, false); })
 
 	let light2 = new Thing("bedroom_light", things);
-	light2.addCallback("off", ()=>{ console.log("bedroom_light on");return setLightState(2, false); })
-	light2.addCallback("on", ()=>{ console.log("bedroom_light off");return setLightState(2, true); })
+	light2.addCallback("off", ()=>{ console.log("bedroom_light on");return setLightState(2, true); })
+	light2.addCallback("on", ()=>{ console.log("bedroom_light off");return setLightState(2, false); })
 
 	return; 
 }

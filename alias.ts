@@ -22,7 +22,14 @@ function aliasInit( things ){
 		let arr = [];
 		arr.push( things.getThing("desk_socket").callCallback("off") );
 		arr.push( things.getThing("living_room_light").callCallback("off") );
-		arr.push( things.getThing("bedroom_light").callCallback("off") );
+
+		arr.push( things.getThing("bedroom_light").callCallback("on").then((resolve, reject)=>{
+			setTimeout(()=>{
+				things.getThing("bedroom_light").callCallback("off").then(()=>{
+					resolve()
+				})
+			},5000);
+		}) );
 		return Promise.all(arr);
 	});
 	alias.addCallback("move_to_livingroom", ()=>{
