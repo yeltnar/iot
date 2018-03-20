@@ -1,3 +1,5 @@
+const {exec} = require("child_process")
+
 function aliasInit( things ){
 
 	let alias = things.createAddThing("alias")
@@ -35,6 +37,15 @@ function aliasInit( things ){
 
 		return new Promise((resolve, reject)=>{
 			resolve(this.count);
+		});
+	});
+	alias.addCallback("update", ()=>{
+		return new Promise((resolve, reject)=>{
+			exec("git pull",(err, stdout, stderr)=>{
+				exec("pm2 restart all",(err, stdout, stderr)=>{
+					resolve( 'exiting app '+stdout );
+				});
+			});
 		});
 	});
 }
