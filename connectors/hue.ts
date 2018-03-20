@@ -57,7 +57,7 @@ function hueInit(hueConfig, things){
 	light2.addCallback("off", ()=>{ console.log("bedroom_light on");return setLightState(2, false); })
 	light2.addCallback("on", ()=>{ console.log("bedroom_light off");return setLightState(2, true); })
 
-	return;
+	return; 
 }
 
 export {hueInit}
