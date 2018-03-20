@@ -28,7 +28,7 @@ function aliasInit( things ){
 				things.getThing("bedroom_light").callCallback("off").then(()=>{
 					resolve()
 				})
-			},5000);
+			},1000*10*60);
 		}) );
 		return Promise.all(arr);
 	});
