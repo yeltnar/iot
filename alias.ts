@@ -43,7 +43,7 @@ function aliasInit( things ){
 		this.count++;
 
 		return new Promise((resolve, reject)=>{
-			resolve(this.count);
+			resolve(this.count); 
 		});
 	});
 	alias.addCallback("update", ()=>{
