@@ -32,6 +32,24 @@ function aliasInit( things ){
 		}) );
 		return Promise.all(arr);
 	});
+	alias.addCallback("about_to_leave", ()=>{
+		console.log("///about_to_leave");
+		return new Promise((resolve, reject)=>{
+			let arr = [];
+			arr.push( things.getThing("living_room_light").callCallback("on") );
+			arr.push( things.getThing("bedroom_light").callCallback("on") );
+			arr.push( new Promise((reslove2, reject2)=>{ setTimeout(()=>{reslove2();},1000*60*3) }) )
+
+			Promise.all(arr).then((resolve2, reject2)=>{
+				let arr = [];
+				arr.push( things.getThing("living_room_light").callCallback("off") );
+				arr.push( things.getThing("bedroom_light").callCallback("off") );
+				Promise.all(arr)
+				.then( things.getThing("notification").callCallback("notify", "lights off timeout", "done") )
+				.then(()=>{resolve()});
+			});
+		});
+	});
 	alias.addCallback("move_to_livingroom", ()=>{
 		let arr = [];
 		arr.push( things.getThing("living_room_light").callCallback("on") );
