@@ -50,6 +50,7 @@ function aliasInit( things ){
 		return new Promise((resolve, reject)=>{
 			exec("git pull",(err, stdout, stderr)=>{
 				console.log("about to restart");
+				console.log(stdout);
 				resolve( 'exiting app '+stdout );
 				exec("tsc app.ts --outDir outdir",(err, stdout, stderr)=>{
 					setTimeout(()=>{ exec("pm2 restart all",(err, stdout, stderr)=>{}); },4000)
