@@ -7,6 +7,8 @@ let things;
 
 function pushNotification(title="", message="", link=""){
 
+	//console.log(`pushNotification(title="", message="", link=""){`)
+
 	let url = iftttConfig.first+iftttConfig.push_notification+iftttConfig.second
 
 	let options = { 
@@ -22,11 +24,11 @@ function pushNotification(title="", message="", link=""){
 	  	},
 	  	json:true
 	};
-	requestP(options).then((results)=>{
+	return requestP(options).then((results)=>{
 		console.log("results is "+results);
 	})
 
-	return requestP(options);
+	//return requestP(options);
 
 }
 
@@ -44,8 +46,8 @@ export function iftttInit( local_iftttConfig:object, things:Things ){
 	iftttConfig = local_iftttConfig;
 
 	let deskSocket = new Thing("desk_socket", things);
-	deskSocket.addUrlCallback("off", {"url":iftttConfig.first+"desk_power_off"+iftttConfig.second}, ()=>{console.log("desk power off")});
-	deskSocket.addUrlCallback("on", {"url":iftttConfig.first+"desk_power_on"+iftttConfig.second}, ()=>{console.log("desk power on")});
+	deskSocket.addUrlCallback("off", {"url":iftttConfig.first+"desk_power_off"+iftttConfig.second}, ()=>{console.log("callback/desk power off")});
+	deskSocket.addUrlCallback("on", {"url":iftttConfig.first+"desk_power_on"+iftttConfig.second}, ()=>{console.log("callback/desk power on")});
 	
 	// let livingRoomLight = new Thing("living_room_light", things);
 	// livingRoomLight.addUrlCallback("off", {"url":iftttConfig.first+"living_room_light_off"+iftttConfig.second}, ()=>{console.log("living room light off")});
@@ -57,7 +59,7 @@ export function iftttInit( local_iftttConfig:object, things:Things ){
 
 	let notification = new Thing("notification", things);
 	notification.addCallback("notify", (...params)=>{ 
-		console.log("notify "+[...params]);
+		//console.log("notify "+[...params]);
 		return pushNotification(...params);
 	});
 	

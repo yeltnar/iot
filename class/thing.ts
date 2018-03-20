@@ -6,11 +6,13 @@ class Thing{
 	name: string;
 	callbacks: object;
 	thingsParent: Things;
+	watcherCallbacks: object;
 
 	constructor(name:string, thingsParent:Things){
 		this.thingsParent = thingsParent;
 		this.callbacks = {};
 		this.name = name;
+		this.watcherCallbacks = {};
 		thingsParent.addThing(this);
 	}
 	toString(thingSep="\n", keySep=" "){
@@ -40,19 +42,33 @@ class Thing{
 			this.state = state;
 			return new Promise(( resolve, reject )=>{
 				resolve( this.callbacks[state](...a) );
-			});
 
-			// if( false ){}
-			// let arr = this.thingsParent.callbacks[this.name][state]
-			// for(let i=0; i<arr.length; i++){
-			// 	arr[i]();
-			// }
+				for( let i=0; i<this.watcherCallbacks[state].length; i++ ){
+					let currentCheckingState = this.watcherCallbacks[state][i];
+					let shouldCallCallback = true;
+					for( let k in currentCheckingState.otherStates ){
+						let realState = this.thingsParent.getThing( currentCheckingState.otherStates[k].thing ).getState();
+						let testState = currentCheckingState.otherStates[k].state
+						if( testState !== realState ){
+							console.log("callCallback/"+currentCheckingState.otherStates[k].thing+" didn't pass -- testState "+testState+" -- realState "+realState);
+							shouldCallCallback=false;
+							break;
+						}
+					}
+					if(shouldCallCallback){console.log("did pass");this.watcherCallbacks[state][i].action();}
+				}
+			});
 		}else{
 			throw "No function defined for "+state;
 		}
 	}
-	addStateListener(thingName, thingStateName, callback){
+	addWatcher(state, otherStates, action){
+		this.watcherCallbacks[state] = this.watcherCallbacks[state] || [];
+		let toPush = {otherStates, action};
+		this.watcherCallbacks[state].push( toPush );
 
+		// console.log(this.watcherCallbacks)
+		// console.log("^")
 	};
 	mergeThing(newThing){
 		this.name = newThing.name;
