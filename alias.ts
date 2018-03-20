@@ -42,9 +42,9 @@ function aliasInit( things ){
 	alias.addCallback("update", ()=>{
 		return new Promise((resolve, reject)=>{
 			exec("git pull",(err, stdout, stderr)=>{
-				exec("pm2 restart all",(err, stdout, stderr)=>{
-					resolve( 'exiting app '+stdout );
-				});
+				console.log("about to restart");
+				resolve( 'exiting app '+stdout );
+				setTimeout(()=>{ exec("pm2 restart all",(err, stdout, stderr)=>{}); },4000)
 			});
 		});
 	});
