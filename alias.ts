@@ -35,6 +35,10 @@ function aliasInit( things ){
 	alias.addCallback("about_to_leave", ()=>{
 		console.log("///about_to_leave");
 		return new Promise((resolve, reject)=>{
+
+			let timeout = 1000*60*3;
+			console.log("timeout is "+timeout);
+
 			let arr = [];
 			arr.push( things.getThing("living_room_light").callCallback("on") );
 			arr.push( things.getThing("bedroom_light").callCallback("on") );
