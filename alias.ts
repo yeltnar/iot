@@ -37,7 +37,7 @@ function aliasInit( things ){
 		return new Promise((resolve, reject)=>{
 
 			let timeout = 1000*60*3;
-			console.log("timeout is "+timeout);
+			console.log("timeout is "+(timeout/1000/60)+" min");
 
 			let arr = [];
 			arr.push( things.getThing("living_room_light").callCallback("on") );
