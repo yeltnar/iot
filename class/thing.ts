@@ -38,6 +38,7 @@ class Thing{
 		});
 	}
 	callCallback( state, ...a ){
+		console.log("callCallback "+state);
 		if( this.callbacks[state] !== undefined ){
 			this.state = state;
 			return new Promise(( resolve, reject )=>{
