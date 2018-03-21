@@ -32,17 +32,17 @@ function aliasInit( things ){
 		}) );
 		return Promise.all(arr);
 	});
-	alias.addCallback("about_to_leave", ()=>{
-		console.log("///about_to_leave");
+	alias.addCallback("about_to_leave", (...params)=>{
+		console.log("///about to leave");
 		return new Promise((resolve, reject)=>{
 
-			let timeout = 1000*60*3;
+			let timeout = params[0] || 1000*60*3;
 			console.log("timeout is "+(timeout/1000/60)+" min");
 
 			let arr = [];
 			arr.push( things.getThing("living_room_light").callCallback("on") );
 			arr.push( things.getThing("bedroom_light").callCallback("on") );
-			arr.push( new Promise((reslove2, reject2)=>{ setTimeout(()=>{reslove2();},1000*60*3) }) )
+			arr.push( new Promise((reslove2, reject2)=>{ setTimeout(()=>{reslove2();}, timeout) }) )
 
 			Promise.all(arr).then((resolve2, reject2)=>{
 				let arr = [];
@@ -82,7 +82,7 @@ function aliasInit( things ){
 				console.log(stdout);
 				resolve( 'exiting app '+stdout );
 				exec("tsc app.ts --outDir outdir",(err, stdout, stderr)=>{
-					setTimeout(()=>{ exec("pm2 restart all",(err, stdout, stderr)=>{}); },4000)
+					exec("pm2 restart all",(err, stdout, stderr)=>{});
 				});
 			});
 		});
