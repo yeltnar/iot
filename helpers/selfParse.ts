@@ -25,7 +25,7 @@ function selfParseInit(things:Things, hueFunc, helpers){
 
 		if( /bedroom timer/i.test(s) && /[0-9]+/i.test(s) ){
 
-			min =  parseInt(/[0-9]+/i.exec(s)[0]);
+			let min =  parseInt(/[0-9]+/i.exec(s)[0]);
 			timeout = min*60*1000;
 
 			console.log("min is "+min);
