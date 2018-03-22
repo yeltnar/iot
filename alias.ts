@@ -1,6 +1,6 @@
 const {exec} = require("child_process")
 
-function aliasInit( things ){
+function aliasInit( things, hueFunc, helpers ){
 
 	let alias = things.createAddThing("alias")
 	
@@ -106,6 +106,50 @@ function aliasInit( things ){
 					exec("pm2 restart all",(err, stdout, stderr)=>{});
 				});
 			});
+		});
+	});
+	alias.addCallback("flash_3_times",(...params)=>{
+		return things.getThing("alias").callCallback("flash_n_times",[3]);
+	})
+	alias.addCallback("flash_n_times",(...params)=>{
+
+		return new Promise((resolve, reject)=>{
+
+			let numberOfTimes = params[0] || 3;
+				
+			console.log("flash_"+numberOfTimes+"_times");
+
+			async function flashNTimes(lightNumber, numberOfTimes){
+
+				let state = await hueFunc.getLightState(lightNumber); // bool value of state
+				let timeSpacer = 1000;
+
+				for(let i=0; i<numberOfTimes; i++){
+
+					await hueFunc.setLightState(lightNumber, !state);
+					await helpers.timeoutPromise(timeSpacer);
+					await hueFunc.setLightState(lightNumber, state);
+					await helpers.timeoutPromise(timeSpacer);
+
+				}
+				
+				// await helpers.timeoutPromise(timeSpacer);
+				// hueFunc.setLightState(lightNumber,state)
+
+				return "done";
+			}
+
+			let pArr = [flashNTimes(1,numberOfTimes)];
+
+			// for(let i=0; i<2; i++){
+			// 	pArr.push( flashNTimes(i+1,numberOfTimes) );
+			// }
+
+			Promise.all( pArr ) // TODO get all lights, mebe?
+			.then(()=>{
+				resolve();
+			})
+		
 		});
 	});
 }
