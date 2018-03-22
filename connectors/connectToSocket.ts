@@ -43,7 +43,7 @@ function connectToSocketInit(socketConfig, things:Things){
 	});
 
 	ws.on('close', function(data){
-		console.log("\n\n\nsocket closed "+data+" - "+Date.now());
+		console.log("\n\n\nsocket closed "+data+" - "+(new Date()).toString());
 		connectToSocketInit(socketConfig, things);
 	});
 
