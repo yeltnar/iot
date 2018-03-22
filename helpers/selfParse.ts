@@ -47,9 +47,9 @@ function selfParseInit(things:Things, hueFunc, helpers){
 			console.log("timeout is "+timeout);
 			console.log("s is "+s);
 
-			things.getThing("bedroom_light").callCallback("on");
+			things.getThing("living_room_light").callCallback("on");
 			await helpers.timeoutPromise(timeout);
-			await things.getThing("bedroom_light").callCallback("off");
+			await things.getThing("living_room_light").callCallback("off");
 			await things.getThing("notification").callCallback("notify", ["Light timeout","Lasted "+timeout/1000/60+" min"]);
 		}	
 
