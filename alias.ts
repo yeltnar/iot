@@ -152,6 +152,11 @@ function aliasInit( things, hueFunc, helpers ){
 		
 		});
 	});
+	alias.addCallback("slack_flash",(...params)=>{
+
+			let numberOfTimes = params[0] || 3;
+			return things.getThing("alias").callCallback("flash_n_times",[numberOfTimes]);
+	});
 }
 
 export {aliasInit};
