@@ -23,6 +23,17 @@ function selfParseInit(things:Things, hueFunc, helpers){
 			await things.getThing("notification").callCallback("notify", ["Light timeout","Lasted "+timeout/1000/60+" min"]);
 		}
 
+		if( /bedroom timer/i.test(s) && /[0-9]+/i.test(s) ){
+
+			min =  /[0-9]+/i.exec(s)[0];
+			timeout = min*60*1000;
+
+			things.getThing("bedroom_light").callCallback("on");
+			await helpers.timeoutPromise(timeout);
+			await things.getThing("bedroom_light").callCallback("off");
+			await things.getThing("notification").callCallback("notify", ["Light timeout","Lasted "+timeout/1000/60+" min"]);
+		}	
+
 		return ;
 	}
 }
