@@ -25,8 +25,12 @@ function selfParseInit(things:Things, hueFunc, helpers){
 
 		if( /bedroom timer/i.test(s) && /[0-9]+/i.test(s) ){
 
-			min =  /[0-9]+/i.exec(s)[0];
+			min =  parseInt(/[0-9]+/i.exec(s)[0]);
 			timeout = min*60*1000;
+
+			console.log("min is "+min);
+			console.log("timeout is "+timeout);
+			console.log("s is "+s);
 
 			things.getThing("bedroom_light").callCallback("on");
 			await helpers.timeoutPromise(timeout);
