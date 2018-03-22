@@ -12,12 +12,15 @@ function selfParseInit(things:Things, hueFunc, helpers){
 
 		let s = params[0];
 
-		console.log("do self parse - ");
+		console.log("do self parse - "+s);
+
+		let timeout = 5*60*1000;
 
 		if( /do the thing/i.test(s) ){
-			await things.getThing("bedroom_light").callCallback("on");
-			await helpers.timeoutPromise(5*60*1000);
+			things.getThing("bedroom_light").callCallback("on");
+			await helpers.timeoutPromise(timeout);
 			await things.getThing("bedroom_light").callCallback("off");
+			await things.getThing("notification").callCallback("notify", ["Light timeout","Lasted "+timeout/1000/60+" min"]);
 		}
 
 		return ;
