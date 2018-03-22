@@ -38,6 +38,21 @@ function selfParseInit(things:Things, hueFunc, helpers){
 			await things.getThing("notification").callCallback("notify", ["Light timeout","Lasted "+timeout/1000/60+" min"]);
 		}	
 
+		if( /living ?room timer/i.test(s) && /[0-9]+/i.test(s) ){
+
+			let min =  parseInt(/[0-9]+/i.exec(s)[0]);
+			timeout = min*60*1000;
+
+			console.log("min is "+min);
+			console.log("timeout is "+timeout);
+			console.log("s is "+s);
+
+			things.getThing("bedroom_light").callCallback("on");
+			await helpers.timeoutPromise(timeout);
+			await things.getThing("bedroom_light").callCallback("off");
+			await things.getThing("notification").callCallback("notify", ["Light timeout","Lasted "+timeout/1000/60+" min"]);
+		}	
+
 		if( /lights timer/i.test(s) && /[0-9]+/i.test(s) ){
 
 			let min =  parseInt(/[0-9]+/i.exec(s)[0]);
