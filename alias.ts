@@ -124,12 +124,16 @@ function aliasInit( things, hueFunc, helpers ){
 				let state = await hueFunc.getLightState(lightNumber); // bool value of state
 				let timeSpacer = 1000;
 
-				for(let i=0; i<numberOfTimes; i++){
+				if( lightNumber!==2 || state ){
 
-					await hueFunc.setLightState(lightNumber, !state);
-					await helpers.timeoutPromise(timeSpacer);
-					await hueFunc.setLightState(lightNumber, state);
-					await helpers.timeoutPromise(timeSpacer);
+					for(let i=0; i<numberOfTimes; i++){
+
+						await hueFunc.setLightState(lightNumber, !state);
+						await helpers.timeoutPromise(timeSpacer);
+						await hueFunc.setLightState(lightNumber, state);
+						await helpers.timeoutPromise(timeSpacer);
+
+					}
 
 				}
 				
@@ -139,11 +143,11 @@ function aliasInit( things, hueFunc, helpers ){
 				return "done";
 			}
 
-			let pArr = [flashNTimes(1,numberOfTimes)];
+			let pArr = [];
 
-			// for(let i=0; i<2; i++){
-			// 	pArr.push( flashNTimes(i+1,numberOfTimes) );
-			// }
+			for(let i=1; i<=2; i++){				
+				pArr.push( flashNTimes(i,numberOfTimes) );
+			}
 
 			Promise.all( pArr ) // TODO get all lights, mebe?
 			.then(()=>{
