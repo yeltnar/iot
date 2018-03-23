@@ -24,8 +24,10 @@ let helpers = {
 				return resolve(stdout);
 			});
 		})
-	}
+	},
+	scheduleAction:( time:Date, action:function )=>{
 
+	}
 };
 
 export {helpers}

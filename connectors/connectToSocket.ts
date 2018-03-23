@@ -30,7 +30,7 @@ function connectToSocketInit(socketConfig, things:Things){
 				if( thing!==undefined && callback!==undefined ){
 					things.getThing(thing).callCallback(callback, ...params)
 					.then(()=>{
-						console.log("callback  33")
+						//console.log("callback  33")
 					});
 				}
 			}catch(e){
