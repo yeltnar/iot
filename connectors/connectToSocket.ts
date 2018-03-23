@@ -22,7 +22,7 @@ function connectToSocketInit(socketConfig, things:Things){
 	});
 	 
 	ws.on('message', function incoming(data) {
-		if( data.indexOf("Welcome, new ")<0 ){
+		if( data.indexOf("Welcome, new ")<0 && data.indexOf("//no_action_info")<0 ){
 			try{
 				data = JSON.parse(data);
 				let {thing, callback, params, uuid} = data;
@@ -35,7 +35,7 @@ function connectToSocketInit(socketConfig, things:Things){
 				}
 			}catch(e){
 				console.error(e);
-				console.log(data);
+				console.log("***"+data+"***");
 			}
 		}else{
 			console.log(data);
