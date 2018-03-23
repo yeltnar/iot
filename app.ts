@@ -21,8 +21,16 @@ aliasInit(things, hueFunc, helpers); // this needs to be last
 selfParseInit(things, hueFunc, helpers); // this needs to be last
 stateListenerInit(things); // this needs to be laster
 
-things.getThing("alias").callCallback("flash_n_times", [1]);
-things.getThing("self_parse").callCallback("do_self_parse", [" do the thing"]);
+things.getThing("alias").callCallback("keep_bm_running");
+
+// (async ()=>{
+// 	try{
+// 		console.log("-"+await helpers.execPromise("cd ~"));
+// 	}catch(e){
+// 		console.log(e);
+// 	}
+// 	console.log(await helpers.execPromise("ls"));
+// })()
 
 //things.getThing("notification").callCallback("notify", "title", "message "+(Date.now().toString()), "http://google.com");
 // things.getThing("desk_socket").callCallback("off");

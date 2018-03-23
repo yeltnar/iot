@@ -10,12 +10,17 @@ let helpers = {
 	execPromise:(command)=>{
 		return new Promise((resolve, reject)=>{
 
+			console.log(command)
+
 			exec(command, (err, stdout, stderr)=>{
 				if(err){
+					console.error(err)
 					return reject(err);
 				}else if(stderr){
+					console.error(stderr)
 					return reject(stderr);
 				}
+				console.log(stdout)
 				return resolve(stdout);
 			});
 		})

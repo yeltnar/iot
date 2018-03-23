@@ -161,6 +161,19 @@ function aliasInit( things, hueFunc, helpers ){
 			let numberOfTimes = params[0] || 3;
 			return things.getThing("alias").callCallback("flash_n_times",[numberOfTimes]);
 	});
+	alias.addCallback("keep_bm_running",()=>{
+		let dir = "~/bm_iot_keep_alive";
+		//date > ~/bm_iot_keep_alive/date.txt
+		(async ()=>{
+			try{
+				await helpers.execPromise("chmod 700 helpers/keep_bm_alive.sh");
+				await helpers.execPromise("./helpers/keep_bm_alive.sh");
+			}catch(e){
+				console.error(e);
+			}
+		})()
+		
+	})
 }
 
 export {aliasInit};
