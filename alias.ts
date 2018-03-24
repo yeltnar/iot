@@ -45,7 +45,11 @@ function aliasInit( things, hueFunc, helpers ){
 				things.getThing("bedroom_light").callCallback("on");
 				await helpers.timeoutPromise(timeout);
 
-				await things.getThing("bedroom_light").callCallback("off");
+				await Promise.all( 
+					things.getThing("living_room_light").callCallback("on"), 
+					things.getThing("bedroom_light").callCallback("off") 
+				);
+				
 				await things.getThing("notification").callCallback("notify", "lights off timeout", timeout+" ms is done");
 				resolve();
 			})();
