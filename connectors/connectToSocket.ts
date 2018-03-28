@@ -28,6 +28,8 @@ function connectToSocketInit(socketConfig, things:Things){
 				let {thing, callback, params, uuid} = data;
 
 				if( thing!==undefined && callback!==undefined ){
+					console.log("thing "+thing)
+					console.log("callback "+callback)
 					things.getThing(thing).callCallback(callback, ...params)
 					.then(()=>{
 						//console.log("callback  33")

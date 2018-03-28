@@ -23,21 +23,11 @@ function sendToTasker(text=""){
 
 }
 
-const data = {
-	"desk_socket":{
-		"state":"unknown",
-		"callbacks":{
-			"on":undefined,
-			"off":undefined
-		}
-	}
-}
-
 export function androidInit( local_androidConfig:object, things:Things ){
 	androidConfig = local_androidConfig;
 
 	let pixel2xl = new Thing("pixel2xl", things);
-	pixel2xl.addCallback("tasker",()=>{
+	pixel2xl.addCallback("tasker",(...params)=>{
 		return sendToTasker(...params);
 	});
 	//deskSocket.addUrlCallback("off", {"url":androidConfig.first+"desk_power_off"+androidConfig.second}, ()=>{console.log("callback/desk power off")});
