@@ -25,14 +25,15 @@ function connectToSocketInit(socketConfig, things:Things){
 		if( data.indexOf("Welcome, new ")<0 && data.indexOf("//no_action_info")<0 ){
 			try{
 				data = JSON.parse(data);
-				let {thing, callback, params, uuid} = data;
+				let {thing, callback, params, uid} = data;
 
 				if( thing!==undefined && callback!==undefined ){
 					console.log("thing "+thing)
 					console.log("callback "+callback)
 					things.getThing(thing).callCallback(callback, ...params)
-					.then(()=>{
-						//console.log("callback  33")
+					.then((data)=>{
+						ws.send(data);
+						console.log("callback  33 "+data)
 					});
 				}
 			}catch(e){

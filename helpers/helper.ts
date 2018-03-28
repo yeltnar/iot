@@ -25,7 +25,7 @@ let helpers = {
 			});
 		})
 	},
-	scheduleAction:( time:Date, action:function )=>{
+	scheduleAction:( time:Date, action:function, repeat:boolean=false )=>{
 
 	}
 };

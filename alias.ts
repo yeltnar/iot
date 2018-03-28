@@ -162,7 +162,7 @@ function aliasInit( things, hueFunc, helpers ){
 	alias.addCallback("keep_bm_running",()=>{
 		let dir = "~/bm_iot_keep_alive";
 		//date > ~/bm_iot_keep_alive/date.txt
-		(async ()=>{
+		return (async ()=>{
 			try{
 				await helpers.execPromise("chmod 700 helpers/keep_bm_alive.sh");
 				await helpers.execPromise("./helpers/keep_bm_alive.sh");
@@ -171,6 +171,12 @@ function aliasInit( things, hueFunc, helpers ){
 			}
 		})()
 		
+	})
+
+	alias.addCallback("test",()=>{
+		return async function(){
+			return "done";
+		}
 	})
 }
 
