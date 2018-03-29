@@ -32,8 +32,12 @@ function connectToSocketInit(socketConfig, things:Things){
 					console.log("callback "+callback)
 					things.getThing(thing).callCallback(callback, ...params)
 					.then((data)=>{
-						ws.send(data);
-						console.log("callback  33 "+data)
+						let obj = {
+							"data":data,
+							uid
+						};
+						ws.send(obj);
+						console.log("callback  40 "+obj)
 					});
 				}
 			}catch(e){
