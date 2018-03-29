@@ -24,8 +24,10 @@ function connectToSocketInit(socketConfig, things:Things){
 	ws.on('message', function incoming(data) {
 		if( data.indexOf("Welcome, new ")<0 && data.indexOf("//no_action_info")<0 ){
 			try{
+				console.log("data is "+data);
 				data = JSON.parse(data);
 				let {thing, callback, params, uid} = data;
+				console.log("uid "+uid)
 
 				if( thing!==undefined && callback!==undefined ){
 					console.log("thing "+thing)
@@ -36,8 +38,8 @@ function connectToSocketInit(socketConfig, things:Things){
 							"data":data,
 							uid
 						};
-						ws.send(obj);
-						console.log("callback  40 "+obj)
+						ws.send(JSON.stringify(obj));
+						console.log("callback  40 "+JSON.stringify(obj));
 					});
 				}
 			}catch(e){
