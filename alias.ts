@@ -58,19 +58,14 @@ function aliasInit( things, hueFunc, helpers ){
 			let timeout = params[0] || 1000;
 			console.log("timeout is "+(timeout/1000/60)+" min");
 
-			let arr = [];
-			arr.push( things.getThing("living_room_light").callCallback("on") );
-			arr.push( things.getThing("bedroom_light").callCallback("on") );
-			arr.push( new Promise((reslove2, reject2)=>{ setTimeout(()=>{reslove2();}, timeout) }) )
+			things.getThing("living_room_light").callCallback("on")
+			things.getThing("bedroom_light").callCallback("on");
+			await helpers.timeoutPromise(timeout);
+			resolve("Lights on. Turnning off in "+(timeout/1000/60)+" min");
 
-			Promise.all(arr).then((resolve2, reject2)=>{
-				let arr = [];
-				arr.push( things.getThing("living_room_light").callCallback("off") );
-				arr.push( things.getThing("bedroom_light").callCallback("off") );
-				
-				Promise.all(arr)
-				.then(()=>{resolve()});
-			});
+			things.getThing("living_room_light").callCallback("off");
+			things.getThing("bedroom_light").callCallback("off");
+			things.getThing("notification").callCallback("notify", ["lights_on_for_ms done", timeout]);
 		});
 	});
 	alias.addCallback("move_to_livingroom", ()=>{
