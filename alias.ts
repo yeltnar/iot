@@ -53,8 +53,8 @@ function aliasInit( things, hueFunc, helpers ){
 		
 	});
 	alias.addCallback("lights_on_for_ms", (...params)=>{
-		return new Promise((resolve, reject)=>{
-
+		return new Promise(async (resolve, reject)=>{
+			
 			let timeout = params[0] || 1000;
 			console.log("timeout is "+(timeout/1000/60)+" min");
 
@@ -66,6 +66,7 @@ function aliasInit( things, hueFunc, helpers ){
 			things.getThing("living_room_light").callCallback("off");
 			things.getThing("bedroom_light").callCallback("off");
 			things.getThing("notification").callCallback("notify", ["lights_on_for_ms done", timeout]);
+			
 		});
 	});
 	alias.addCallback("move_to_livingroom", ()=>{
@@ -166,6 +167,10 @@ function aliasInit( things, hueFunc, helpers ){
 			}
 		})()
 		
+	})
+
+	alias.addCallback("version", ()=>{
+		return helpers.execPromise("git rev-parse HEAD");
 	})
 
 	alias.addCallback("test",()=>{
