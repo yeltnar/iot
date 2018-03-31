@@ -67,7 +67,7 @@ function hueInit(hueConfig, things, helpers){
 		  	url: baseAddress+'/'+user+'/lights/'+id+'/state',
 		  	body: JSON.stringify({on})
 		};
-		return requestP(options);
+		return requestP(options).then(helpers.tryToParsePromise);
 	}
 
 	// getLights().then((resp)=>{

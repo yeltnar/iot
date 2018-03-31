@@ -27,6 +27,17 @@ let helpers = {
 	},
 	scheduleAction:( time:Date, action:function, repeat:boolean=false )=>{
 
+	},
+	tryToParse:(data)=>{
+		try{
+			data = JSON.parse(data);
+		}catch(e){}
+		return data;
+	}, 
+	tryToParsePromise:(data)=>{
+		return new Promise((resolve, reject)=>{
+			resolve(helpers.tryToParse(data));
+		});
 	}
 };
 

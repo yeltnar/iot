@@ -1,4 +1,5 @@
 let requestP = require('request-promise-native');
+import {helpers} from "../helpers/helper";
 
 class Thing{
 
@@ -29,17 +30,26 @@ class Thing{
 	addUrlCallback( name:string, options:object, inFunct=(data)=>{} ){
 		this.addCallback(name, ()=>{
 
-			return requestP( options ).then((data)=>{
-				inFunct(data);
-			}).catch((e)=>{
+			return requestP( options )
+			.then(helpers.tryToParsePromise)
+			.then((data)=>{
+				return new Promise((resolve, reject)=>{
+					inFunct(data);
+					resolve(data);
+				})
+			})
+			.catch((e)=>{
 				console.log("Error in Drew code");
 				throw e;
 			});	
 		});
 	}
-	callCallback( state, ...a ){
+	callCallback_old( state, ...a ){
 		console.log("callCallback "+state);
 		if( this.callbacks[state] !== undefined ){
+			// if(){
+			// 	this.callbacks[Symbol.toStringTag] === "AsyncFunction" || this.callbacks[Symbol.toStringTag] === 
+			// }
 			this.state = state;
 			return new Promise(( resolve, reject )=>{
 				resolve( this.callbacks[state](...a) );
@@ -61,6 +71,37 @@ class Thing{
 			});
 		}else{
 			throw "No function defined for "+state;
+		}
+	}
+	callCallback( state, ...a ){
+		console.log("callCallback "+state);
+		if( this.callbacks[state] !== undefined ){
+			this.state = state;
+
+			// this.callbacks[state]; // check  to see if is a promise 
+			//console.log(this.callbacks);
+			return this.callbacks[state](...a);
+
+			return new Promise(( resolve, reject )=>{
+				resolve( this.callbacks[state](...a) );
+
+				for( let i=0; i<this.watcherCallbacks[state].length; i++ ){
+					let currentCheckingState = this.watcherCallbacks[state][i];
+					let shouldCallCallback = true;
+					for( let k in currentCheckingState.otherStates ){
+						let realState = this.thingsParent.getThing( currentCheckingState.otherStates[k].thing ).getState();
+						let testState = currentCheckingState.otherStates[k].state
+						if( testState !== realState ){
+							console.log("callCallback/"+currentCheckingState.otherStates[k].thing+" didn't pass -- testState "+testState+" -- realState "+realState);
+							shouldCallCallback=false;
+							break;
+						}
+					}
+					if(shouldCallCallback){console.log("did pass");this.watcherCallbacks[state][i].action();}
+				}
+			});
+		}else{
+			throw "No function defined for name:"+name+" state:"+state;
 		}
 	}
 	addWatcher(state, otherStates, action){

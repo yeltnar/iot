@@ -40,7 +40,7 @@ const setDeviceState = function(req, res, next){
 
 
 	pro.then((data)=>{
-		res.end("data is "+data);
+		res.end("setDeviceState - data is "+data);
 	});
 }
 

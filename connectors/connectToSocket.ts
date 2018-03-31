@@ -26,8 +26,8 @@ function connectToSocketInit(socketConfig, things:Things){
 			try{
 				console.log("data is "+data);
 				data = JSON.parse(data);
-				let {thing, callback, params, uid} = data;
-				console.log("uid "+uid)
+				let {message, params, uid} = data;
+				let {thing, callback} = message;
 
 				if( thing!==undefined && callback!==undefined ){
 					console.log("thing "+thing)
