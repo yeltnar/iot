@@ -19,10 +19,11 @@ class Thing{
 	toString(thingSep="\n", keySep=" "){
 		return "Name:"+this.name+";"+keySep+"State:"+this.state+";"+keySep+"Callbacks:"+JSON.stringify(Object.keys(this.callbacks))+keySep+"Parent name:"+this.thingsParent.name;
 	}
-	addCallback( state:string, f:Function ){
+	addCallback( state:string, f:Function, expects?:object ){
 		if( this.callbacks[state] === undefined){
 			// this.thingsParent.addStateChangeCallback( this.name, state ); // sets it up if not
 			this.callbacks[state] = f;
+			this.callbacks[state].expects = expects;
 		}else{
 			throw "'"+state+"' has already been set for "+this.name;
 		}
@@ -45,7 +46,7 @@ class Thing{
 		});
 	}
 	callCallback_old( state, ...a ){
-		console.log("callCallback "+state);
+		console.log("callCallback_old "+state);
 		if( this.callbacks[state] !== undefined ){
 			// if(){
 			// 	this.callbacks[Symbol.toStringTag] === "AsyncFunction" || this.callbacks[Symbol.toStringTag] === 
@@ -73,33 +74,42 @@ class Thing{
 			throw "No function defined for "+state;
 		}
 	}
-	callCallback( state, ...a ){
+	callCallback( state, obj ){
+		let objIsArr = Array.isArray(obj);
+		if(objIsArr){console.warn("obj is an array...I am working on deprecating this")}
+
 		console.log("callCallback "+state);
 		if( this.callbacks[state] !== undefined ){
 			this.state = state;
 
-			// this.callbacks[state]; // check  to see if is a promise 
-			//console.log(this.callbacks);
-			return this.callbacks[state](...a);
+			// try{
+			// 	for( let i=0; i<this.watcherCallbacks[state].length; i++ ){
+			// 		let currentCheckingState = this.watcherCallbacks[state][i];
+			// 		let shouldCallCallback = true;
+			// 		for( let k in currentCheckingState.otherStates ){
+			// 			let realState = this.thingsParent.getThing( currentCheckingState.otherStates[k].thing ).getState();
+			// 			let testState = currentCheckingState.otherStates[k].state
+			// 			if( testState !== realState ){
+			// 				console.log("callCallback/"+currentCheckingState.otherStates[k].thing+" didn't pass -- testState "+testState+" -- realState "+realState);
+			// 				shouldCallCallback=false;
+			// 				break;
+			// 			}
+			// 		}
+			// 		if(shouldCallCallback){console.log("did pass");this.watcherCallbacks[state][i].action();}
+			// 	}
+			// }catch(e){console.error(e);}
 
-			return new Promise(( resolve, reject )=>{
-				resolve( this.callbacks[state](...a) );
+			console.log("a -> *"+obj+"*")
 
-				for( let i=0; i<this.watcherCallbacks[state].length; i++ ){
-					let currentCheckingState = this.watcherCallbacks[state][i];
-					let shouldCallCallback = true;
-					for( let k in currentCheckingState.otherStates ){
-						let realState = this.thingsParent.getThing( currentCheckingState.otherStates[k].thing ).getState();
-						let testState = currentCheckingState.otherStates[k].state
-						if( testState !== realState ){
-							console.log("callCallback/"+currentCheckingState.otherStates[k].thing+" didn't pass -- testState "+testState+" -- realState "+realState);
-							shouldCallCallback=false;
-							break;
-						}
-					}
-					if(shouldCallCallback){console.log("did pass");this.watcherCallbacks[state][i].action();}
-				}
-			});
+			if(objIsArr){
+				return this.callbacks[state](...obj).catch((err)=>{
+					console.error(err);
+				})
+			}else{
+				return this.callbacks[state](obj).catch((err)=>{
+					console.error(err);
+				})
+			}
 		}else{
 			throw "No function defined for name:"+name+" state:"+state;
 		}
@@ -130,6 +140,16 @@ class Thing{
 	getState(){
 		return this.state;
 	};
+	setState(newState:string){
+		this.state = newState;
+		return this.state;
+	};
+	toObj(){
+		let name = this.name;
+		let callbacks = Object.keys(this.callbacks);
+		return {name, callbacks};
+		//return "working on it"
+	}
 }
 
 class Things{
@@ -157,7 +177,7 @@ class Things{
 		}
 		return this.things;
 	}
-	createAddThing( name:string, state?:string ){
+	createAddThing( name:string, state?:string ):Thing{
 		this.things[name] = new Thing(name, this);
 		return this.things[name];
 	};
@@ -170,6 +190,13 @@ class Things{
 			arr.push( this.things[k].toString() );
 		}
 		return arr.join(separator)
+	};
+	toObj(){
+		let arr = [];
+		for(var k in  this.things){
+			arr.push( this.things[k].toObj() );
+		}
+		return (arr);
 	}
 	// addStateChangeCallback( thingName:string, state:string, callback?:Function ){
 	// 	this.callbacks[thingName] = this.callbacks[thingName] || {};

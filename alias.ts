@@ -173,9 +173,10 @@ function aliasInit( things, hueFunc, helpers ){
 		return helpers.execPromise("git rev-parse HEAD");
 	})
 
-	alias.addCallback("test", async ()=>{
+	alias.addCallback("test", async (params)=>{
 		
-		console.log("test function called");
+		console.log("test function called with params...");
+		console.log(params);
 		return "done";
 		// return new Promise((resolve, reject)=>{
 		// 	resolve("done")

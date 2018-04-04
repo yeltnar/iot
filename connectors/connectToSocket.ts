@@ -26,20 +26,23 @@ function connectToSocketInit(socketConfig, things:Things){
 			try{
 				console.log("data is "+data);
 				data = JSON.parse(data);
-				let {message, params, uid} = data;
-				let {thing, callback} = message;
+				let {message, uid} = data;
+				let {thing, callback, params} = message;
 
 				if( thing!==undefined && callback!==undefined ){
 					console.log("thing "+thing)
 					console.log("callback "+callback)
-					things.getThing(thing).callCallback(callback, ...params)
+					console.log("params "+params)
+					things.getThing(thing).callCallback(callback, params)
 					.then((data)=>{
 						let obj = {
 							"data":data,
 							uid
 						};
-						ws.send(JSON.stringify(obj));
-						console.log("callback  40 "+JSON.stringify(obj));
+						let toSend = JSON.stringify(obj)
+						ws.send(toSend);
+						console.log("callback  44 "+typeof toSend);
+						console.log("callback  45 "+toSend);
 					});
 				}
 			}catch(e){

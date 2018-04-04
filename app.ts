@@ -1,6 +1,8 @@
 const config = require('config');
 import {endpointsInit} from "./endpoints/endpoints";
 import {iftttInit} from "./connectors/ifttt";
+import {carInit} from "./connectors/car";
+import {webServerInit} from "./connectors/webServer";
 import {androidInit} from "./connectors/android";
 import {Things, Thing} from "./class/thing";
 import {aliasInit} from "./alias";
@@ -14,6 +16,8 @@ import {selfParseInit} from "./helpers/selfParse";
 let things = new Things("Drew's IOT");
 
 iftttInit(config.ifttt, things);
+carInit(config.car, things);
+webServerInit(config.fileServer, things);
 androidInit(config.ifttt, things); // TODO make android config
 endpointsInit(config.express, things);
 let hueFunc = hueInit(config.hue, things, helpers);
