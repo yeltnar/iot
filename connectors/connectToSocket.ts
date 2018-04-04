@@ -2,24 +2,32 @@ import {Things, Thing} from "../class/thing";
 const WebSocket = require('ws');
 
 function connectToSocketInit(socketConfig, things:Things){
+
+	let id_obj = {
+        'group':'home_pi',
+        'userType':"node"
+    }
  
+ 	let ws;
  	try{
-		const ws = new WebSocket(socketConfig.url);
+		ws = new WebSocket(socketConfig.url);
 	}catch(e){
 		console.log("server connection failed");
 		setTimeout(connectToSocketInit(socketConfig, things),socketConfig.retryFrequency);
 	}
 	 
 	ws.on('open', function open() {
+		let group = id_obj.group;
+		let userType = id_obj.userType;
+		let obj = {'cmd': 'connected', group, userType}
 
-		let obj = {
-	        'cmd': 'connected',
-	        'group':'home_pi',
-	        'userType':"node"
-	    }
-	  	ws.send( JSON.stringify(obj) );
+	  	ws.send( JSON.stringify(id_obj) );
 	  	console.log("socket open")
 	});
+
+	ws.on('ping',(data)=>{
+		console.log(data.toString());
+	})
 	 
 	ws.on('message', function incoming(data) {
 		if( data.indexOf("Welcome, new ")<0 && data.indexOf("//no_action_info")<0 ){

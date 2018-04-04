@@ -82,22 +82,24 @@ class Thing{
 		if( this.callbacks[state] !== undefined ){
 			this.state = state;
 
-			// try{
-			// 	for( let i=0; i<this.watcherCallbacks[state].length; i++ ){
-			// 		let currentCheckingState = this.watcherCallbacks[state][i];
-			// 		let shouldCallCallback = true;
-			// 		for( let k in currentCheckingState.otherStates ){
-			// 			let realState = this.thingsParent.getThing( currentCheckingState.otherStates[k].thing ).getState();
-			// 			let testState = currentCheckingState.otherStates[k].state
-			// 			if( testState !== realState ){
-			// 				console.log("callCallback/"+currentCheckingState.otherStates[k].thing+" didn't pass -- testState "+testState+" -- realState "+realState);
-			// 				shouldCallCallback=false;
-			// 				break;
-			// 			}
-			// 		}
-			// 		if(shouldCallCallback){console.log("did pass");this.watcherCallbacks[state][i].action();}
-			// 	}
-			// }catch(e){console.error(e);}
+			try{
+				if(this.watcherCallbacks[state]!==undefined){
+					for( let i=0; i<this.watcherCallbacks[state].length; i++ ){
+						let currentCheckingState = this.watcherCallbacks[state][i];
+						let shouldCallCallback = true;
+						for( let k in currentCheckingState.otherStates ){
+							let realState = this.thingsParent.getThing( currentCheckingState.otherStates[k].thing ).getState();
+							let testState = currentCheckingState.otherStates[k].state
+							if( testState !== realState ){
+								console.log("callCallback/"+currentCheckingState.otherStates[k].thing+" didn't pass -- testState "+testState+" -- realState "+realState);
+								shouldCallCallback=false;
+								break;
+							}
+						}
+						if(shouldCallCallback){console.log("did pass");this.watcherCallbacks[state][i].action();}
+					}
+				}
+			}catch(e){console.error(e);}
 
 			console.log("a -> *"+obj+"*")
 

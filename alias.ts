@@ -64,7 +64,7 @@ function aliasInit( things, hueFunc, helpers ){
 			resolve("Lights on. Turnning off in "+(timeout/1000/60)+" min");
 
 			things.getThing("living_room_light").callCallback("off");
-			things.getThing("bedroom_light").callCallback("off");
+			await things.getThing("bedroom_light").callCallback("off");
 			things.getThing("notification").callCallback("notify", ["lights_on_for_ms done", timeout]);
 			
 		});
@@ -100,6 +100,16 @@ function aliasInit( things, hueFunc, helpers ){
 					exec("pm2 restart all",(err, stdout, stderr)=>{});
 				});
 			});
+
+			// return
+
+			// let toResolve="";
+			// toResolve += await helpers.execPromise("git pull")+"\n";
+			// toResolve += await helpers.execPromise("tsc app.ts --outDir outdir");
+			// toResolve +="restarting with pm2...";
+			// resolve(toResolve);
+			// helpers.execPromise("pm2 restart all");
+
 		});
 	});
 	alias.addCallback("flash_3_times",(...params)=>{
@@ -162,6 +172,7 @@ function aliasInit( things, hueFunc, helpers ){
 			try{
 				await helpers.execPromise("chmod 700 helpers/keep_bm_alive.sh");
 				await helpers.execPromise("./helpers/keep_bm_alive.sh");
+				console.log("successfully keeping bm alive");
 			}catch(e){
 				console.error(e);
 			}

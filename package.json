@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "clear;ts-node app.ts",
-	   "start":"tsc app.ts --outDir outdir;pm2 start outdir/app.js;pm2 logs"
+    "start":"tsc app.ts --outDir outdir;pm2 start outdir/app.js;pm2 logs",
+    "postinstall":"npm i pm2 -g"
   },
   "repository": {
     "type": "git",
