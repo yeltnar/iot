@@ -5,7 +5,7 @@ let androidConfig;
 
 let things;
 
-function sendToTasker(text=""){
+async function updateTime(text=""){
 
 	//console.log(`pushNotification(title="", message="", link=""){`)
 
@@ -23,22 +23,14 @@ function sendToTasker(text=""){
 
 }
 
-export function androidInit( local_androidConfig:object, things:Things ){
-	androidConfig = local_androidConfig;
+export function timeInit( things:Things ){
 
-	async function recordLocation_home(params){
+	let time = new Thing("time", things);
+	time.getState = Date.now;
 
-		things.getThing("notification").callCallback("notify",["Called recordLocation","home"]);
+	console.log(time.getState());
 
-		return "done";
-	}
-
-	let pixel2xl = new Thing("pixel2xl", things);
-	pixel2xl.addCallback("tasker",(...params)=>{
-		return sendToTasker(...params);
-	});
-	let pixel2xl_location = new Thing("pixel2xl_location", things);
-	pixel2xl_location.addCallback("home",recordLocation_home);
+	//updateTime();
 	
 	return things;
 }
