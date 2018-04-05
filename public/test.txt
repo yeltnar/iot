@@ -1,15 +1,14 @@
 <html>
 	<script type="text/javascript">
-		function living_room_light_off(){
-			fetch('https://drew-iot.mybluemix.net/send/home_pi/%7B"thing":"living_room_light","callback":"off"%7D/83MN59p8eEh5EmhUVgg6fXX6')
-			.then(function(response){ 
-				debugger
-				return response.json(); 
-			}) 
-			.then(function(myJson){ 
-				console.log(myJson); 
-			});
-		}
+
+		const thingsUrl = "/send/home_pi/%7B%22thing%22:%22web_server%22,%22callback%22:%22get_things%22,%22response_only%22:true%7D/83MN59p8eEh5EmhUVgg6fXX6";
+
+		fetch(thingsUrl).then(function(response){return response.json();}) 
+		.then(function(myJson){ 
+			console.log(myJson); 
+			document.querySelector("body").innerText = JSON.stringify(myJson);
+			//debugger
+		});
 	</script>
 	<body>html website body</body>
 	<button onclick="living_room_light_off()">living_room_light_off</button>

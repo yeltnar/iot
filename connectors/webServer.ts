@@ -29,14 +29,7 @@ async function getFile( fileLocation ){
 }
 
 async function getThings( fileLocation ){
-	try{
-		console.log("things.toObj()");
-		console.log(things.toObj());
-	}catch(e){
-		console.log(e);
-	}
 	return things.toObj();
-	//return "things.toObj()";
 }
 
 export function webServerInit( local_webServerConfig:object, local_things:Things ){

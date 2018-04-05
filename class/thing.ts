@@ -19,7 +19,7 @@ class Thing{
 	toString(thingSep="\n", keySep=" "){
 		return "Name:"+this.name+";"+keySep+"State:"+this.state+";"+keySep+"Callbacks:"+JSON.stringify(Object.keys(this.callbacks))+keySep+"Parent name:"+this.thingsParent.name;
 	}
-	addCallback( state:string, f:Function, expects?:object ){
+	addCallback( state:string, f:Function, recordState=true, expects?:object ){
 		if( this.callbacks[state] === undefined){
 			// this.thingsParent.addStateChangeCallback( this.name, state ); // sets it up if not
 			this.callbacks[state] = f;
@@ -95,7 +95,7 @@ class Thing{
 		let objIsArr = Array.isArray(obj);
 		if(objIsArr){console.warn("obj is an array...I am working on deprecating this")};
 
-		console.log("callCallback "+state);
+		//console.log("callCallback "+state);
 		if( this.callbacks[state] !== undefined ){
 			this.state = state;
 

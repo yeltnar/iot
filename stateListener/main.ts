@@ -1,27 +1,6 @@
 import {Things, Thing} from "../class/thing";
-//import {initIftttListener} from "./ifttt"
-{
-	// try{
-	// 	if(this.watcherCallbacks[state]!==undefined){
-	// 		for( let i=0; i<this.watcherCallbacks[state].length; i++ ){
-	// 			let currentCheckingState = this.watcherCallbacks[state][i];
-	// 			let shouldCallCallback = true;
-	// 			for( let k in currentCheckingState.otherStates ){
-	// 				let realState = this.thingsParent.getThing( currentCheckingState.otherStates[k].thing ).getState();
-	// 				let testState = currentCheckingState.otherStates[k].state
-	// 				if( testState !== realState ){
-	// 					console.log("callCallback/"+currentCheckingState.otherStates[k].thing+" didn't pass -- testState "+testState+" -- realState "+realState);
-	// 					shouldCallCallback=false;
-	// 					break;
-	// 				}
-	// 			}
-	// 			if(shouldCallCallback){console.log("did pass");this.watcherCallbacks[state][i].action();}
-	// 		}
-	// 	}
-	// }catch(e){console.error(e);}
-}
 
-function stateListenerInit(things:Things){
+function stateListenerInit(things:Things, helpers){
 	
 	let arr = [
 		{
@@ -56,10 +35,29 @@ function stateListenerInit(things:Things){
 				// 	"state":"down"
 				}
 			],
-			"action":function(){
+			"action":async function(){
 				console.log("car off at home");
 				things.getThing("living_room_light").callCallback("on");
 				things.getThing("notification").callCallback("notify",["special light trigger",":)"]);
+
+				let sunRiseSet = await helpers.weather.getSunRiseSet();
+				let d = new Date();
+
+				let hrCheck = (d.getHours() < sunRiseSet.sunrise.hour ||  d.getHours() > sunRiseSet.sunset.hour)
+				let minCheck = (d.getMinutes() < sunRiseSet.sunrise.minute ||  d.getMinutes() > sunRiseSet.sunset.minute)
+
+				if( hrCheck && minCheck ){
+					console.log("sun not up");
+				}else{
+					console.log("sun is up");
+				}
+			}
+		},{
+			"states":[
+
+			],
+			"action":function(){
+
 			}
 		}
 	]
@@ -97,21 +95,6 @@ function stateListenerInit(things:Things){
 		}
 	}
 
-}
-
-function stateListenerInit_old(things:Things){
-
-	for( let i=0; i<arr.length; i++ ){
-		addStatesListener( arr[i] );
-	}
-
-	function addStatesListener( statesListener ){
-		for( let i=0; i<statesListener.states.length; i++ ){
-			let state = statesListener.states[i]
-			things.getThing( state["thing"] )
-			.addAfter( state["state"], statesListener.states, statesListener.action );
-		}
-	}
 }
 
 export {stateListenerInit}

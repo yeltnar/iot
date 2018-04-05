@@ -25,8 +25,33 @@ let helpers = {
 			});
 		})
 	},
-	scheduleAction:( time:Date, action:Function, repeat:boolean=false )=>{
+	scheduleAction:( timeObj, action:Function, repeat:boolean=false )=>{
+		if(timeObj.hr === undefined || timeObj.min === undefined){throw new Error("must define timeObj.min and timeObj.hr");}
 
+		console.log("scheduling "+JSON.stringify(timeObj));
+
+		let now = new Date();
+		let then = new Date();
+		then.setHours(timeObj.hr);
+		then.setMinutes(timeObj.min);
+		then.setSeconds(0);
+		then.setMilliseconds(0);
+
+		if( then<now ){
+			let day = then.getDate();
+			then.setDate(day+1);
+		}
+
+		let timeout = then.getTime()-now.getTime();
+
+		setTimeout(()=>{
+			action();
+			if( repeat ){
+				helpers.scheduleAction(timeObj, action);
+			}
+		}, timeout);
+		console.log(then.toString());
+		console.log(timeout);
 	},
 	tryToParse:(data)=>{
 		try{
