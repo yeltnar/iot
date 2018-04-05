@@ -7,13 +7,13 @@ class Thing{
 	name: string;
 	callbacks: object;
 	thingsParent: Things;
-	watcherCallbacks: object;
+	afterCallbacks: object;
 
 	constructor(name:string, thingsParent:Things){
 		this.thingsParent = thingsParent;
 		this.callbacks = {};
 		this.name = name;
-		this.watcherCallbacks = {};
+		this.afterCallbacks = {};
 		thingsParent.addThing(this);
 	}
 	toString(thingSep="\n", keySep=" "){
@@ -45,6 +45,23 @@ class Thing{
 			});	
 		});
 	}
+	addAfterCallback( state:string, f:Function, expects?:object ):Thing{
+
+		if(this.callbacks[state] !== undefined){
+			this.afterCallbacks[state] = this.afterCallbacks[state] || [];
+			this.afterCallbacks[state].push(f);
+		}else{
+			throw new Error("state "+state+" not defined. Cannot call 'addAfterCallback'");
+		}
+		return this;
+	}
+	callAfterCallbacks( state:string ){
+		if( this.afterCallbacks[state]!==undefined ){
+			for( let i=0; i<this.afterCallbacks[state].length; i++ ){
+				this.afterCallbacks[state][i]();
+			}
+		}
+	}
 	callCallback_old( state, ...a ){
 		console.log("callCallback_old "+state);
 		if( this.callbacks[state] !== undefined ){
@@ -74,56 +91,38 @@ class Thing{
 			throw "No function defined for "+state;
 		}
 	}
-	callCallback( state, obj ){
+	callCallback( state:string, obj ){
 		let objIsArr = Array.isArray(obj);
-		if(objIsArr){console.warn("obj is an array...I am working on deprecating this")}
+		if(objIsArr){console.warn("obj is an array...I am working on deprecating this")};
 
 		console.log("callCallback "+state);
 		if( this.callbacks[state] !== undefined ){
 			this.state = state;
 
-			try{
-				if(this.watcherCallbacks[state]!==undefined){
-					for( let i=0; i<this.watcherCallbacks[state].length; i++ ){
-						let currentCheckingState = this.watcherCallbacks[state][i];
-						let shouldCallCallback = true;
-						for( let k in currentCheckingState.otherStates ){
-							let realState = this.thingsParent.getThing( currentCheckingState.otherStates[k].thing ).getState();
-							let testState = currentCheckingState.otherStates[k].state
-							if( testState !== realState ){
-								console.log("callCallback/"+currentCheckingState.otherStates[k].thing+" didn't pass -- testState "+testState+" -- realState "+realState);
-								shouldCallCallback=false;
-								break;
-							}
-						}
-						if(shouldCallCallback){console.log("did pass");this.watcherCallbacks[state][i].action();}
-					}
-				}
-			}catch(e){console.error(e);}
-
-			console.log("a -> *"+obj+"*")
+			let toReturn;
 
 			if(objIsArr){
-				return this.callbacks[state](...obj).catch((err)=>{
-					console.error(err);
-				})
+				toReturn = this.callbacks[state](...obj)
 			}else{
-				return this.callbacks[state](obj).catch((err)=>{
-					console.error(err);
-				})
+				toReturn = this.callbacks[state](obj);
 			}
+			return toReturn.then((data)=>{
+				this.callAfterCallbacks(state);
+				return data;
+			}).catch((err)=>{console.error(err);})
+
 		}else{
 			throw "No function defined for name:"+name+" state:"+state;
 		}
 	}
-	addWatcher(state, otherStates, action){
-		this.watcherCallbacks[state] = this.watcherCallbacks[state] || [];
-		let toPush = {otherStates, action};
-		this.watcherCallbacks[state].push( toPush );
+	// addWatcher(state, otherStates, action){
+	// 	this.watcherCallbacks[state] = this.watcherCallbacks[state] || [];
+	// 	let toPush = {otherStates, action};
+	// 	this.watcherCallbacks[state].push( toPush );
 
-		// console.log(this.watcherCallbacks)
-		// console.log("^")
-	};
+	// 	// console.log(this.watcherCallbacks)
+	// 	// console.log("^")
+	// };
 	mergeThing(newThing){
 		this.name = newThing.name;
 		this.state = newThing.state;
@@ -149,7 +148,8 @@ class Thing{
 	toObj(){
 		let name = this.name;
 		let callbacks = Object.keys(this.callbacks);
-		return {name, callbacks};
+		let state = this.state;
+		return {name, callbacks, state};
 		//return "working on it"
 	}
 }

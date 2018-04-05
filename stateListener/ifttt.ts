@@ -1,18 +1,18 @@
 import {Things, Thing} from "../class/thing";
 
-function initIfttt(things:Things){
+function initIftttListener(things:Things){
 
 	let ifttt = [
 		{
 			"states":[ // list of states that all must be true to fire action
 				{
-					"thing":"desk_socket",
+					"thing":"car",
 					"state":"on"
-				},
-				{
-					"thing":"desk_socket",
-					"state":"off"
-				}
+				}//,
+				// {
+				// 	"thing":"desk_socket",
+				// 	"state":"off"
+				// }
 			],
 			"action":function(){
 				console.log("doing action on")
@@ -26,4 +26,4 @@ function initIfttt(things:Things){
 
 }
 
-export {initIfttt}
+export {initIftttListener}

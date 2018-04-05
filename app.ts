@@ -4,6 +4,7 @@ import {iftttInit} from "./connectors/ifttt";
 import {carInit} from "./connectors/car";
 import {webServerInit} from "./connectors/webServer";
 import {androidInit} from "./connectors/android";
+import {timeInit} from "./connectors/time";
 import {Things, Thing} from "./class/thing";
 import {aliasInit} from "./alias";
 import {googleDriveInit} from "./connectors/googleDrive";
@@ -19,6 +20,7 @@ iftttInit(config.ifttt, things);
 carInit(config.car, things);
 webServerInit(config.fileServer, things);
 androidInit(config.ifttt, things); // TODO make android config
+timeInit(things); // TODO make android config
 endpointsInit(config.express, things);
 let hueFunc = hueInit(config.hue, things, helpers);
 googleDriveInit(config.googleDrive, things);
@@ -27,7 +29,4 @@ aliasInit(things, hueFunc, helpers); // this needs to be last
 selfParseInit(things, hueFunc, helpers); // this needs to be last
 stateListenerInit(things); // this needs to be laster
 
-//things.getThing("notification").callCallback("notify", "title", "message "+(Date.now().toString()), "http://google.com");
-// things.getThing("desk_socket").callCallback("off");
-// let s = things.getThing("desk_socket").getState()
-// console.log(s)
+//things.getThing("car").callCallback("off");
