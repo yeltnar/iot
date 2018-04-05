@@ -29,10 +29,10 @@ function stateListenerInit(things:Things, helpers){
 				{
 					"thing":"pixel2xl_location",
 					"state":"home"
-				// },
-				// {
-				// 	"thing":"sun",
-				// 	"state":"down"
+				},
+				{
+					"thing":"sun",
+					"state":"down"
 				}
 			],
 			"action":async function(){
