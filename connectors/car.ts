@@ -9,7 +9,7 @@ export function carInit( local_carConfig:object, local_things:Things ){
 	carConfig = local_carConfig;
 	things = local_things;
 
-	let car = things.createAddThing("car");
+	let car = things.createAddThing("car", "off");
 	car.addCallback("on", async ()=>{
 		things.getThing("notification").callCallback("notify",["car_engine recorded to be 'on'","car_engine recorded to be 'on'"]);
 		return "car recorded to be 'on'"}

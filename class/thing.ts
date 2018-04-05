@@ -9,7 +9,7 @@ class Thing{
 	thingsParent: Things;
 	afterCallbacks: object;
 
-	constructor(name:string, thingsParent:Things){
+	constructor(name:string, thingsParent:Things, state?:string ){
 		this.thingsParent = thingsParent;
 		this.callbacks = {};
 		this.name = name;
