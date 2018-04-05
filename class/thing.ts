@@ -184,7 +184,12 @@ class Things{
 		return this.things[name];
 	};
 	getThing( name:string ){ // TODO consider not returning the actual object
-		return this.things[name];
+		if( this.things[name] !== undefined ){
+			return this.things[name]
+		}else{
+			console.error("No thing defined: "+_name);
+			return this.things[name]	
+		}
 	};
 	toString(separator:string){
 		let arr = [];
