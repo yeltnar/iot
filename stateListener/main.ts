@@ -39,27 +39,15 @@ function stateListenerInit(things:Things, helpers){
 				console.log("car off at home");
 				things.getThing("living_room_light").callCallback("on");
 				things.getThing("notification").callCallback("notify",["special light trigger",":)"]);
-
-				let sunRiseSet = await helpers.weather.getSunRiseSet();
-				let d = new Date();
-
-				let hrCheck = (d.getHours() < sunRiseSet.sunrise.hour ||  d.getHours() > sunRiseSet.sunset.hour)
-				let minCheck = (d.getMinutes() < sunRiseSet.sunrise.minute ||  d.getMinutes() > sunRiseSet.sunset.minute)
-
-				if( hrCheck && minCheck ){
-					console.log("sun not up");
-				}else{
-					console.log("sun is up");
-				}
 			}
-		},{
-			"states":[
+		}//,{
+		// 	"states":[
 
-			],
-			"action":function(){
+		// 	],
+		// 	"action":function(){
 
-			}
-		}
+		// 	}
+		// }
 	]
 
 	for( let i=0; i<arr.length; i++ ){
