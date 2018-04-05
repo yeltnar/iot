@@ -187,7 +187,7 @@ class Things{
 		if( this.things[name] !== undefined ){
 			return this.things[name]
 		}else{
-			console.error("No thing defined: "+_name);
+			console.error("No thing defined: "+ name);
 			return this.things[name]	
 		}
 	};
