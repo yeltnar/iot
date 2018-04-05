@@ -28,6 +28,7 @@ export function androidInit( local_androidConfig:object, things:Things ){
 
 	async function recordLocation_home(params){
 
+		things.getThing("notification").callCallback("notify",["record home",JSON.stringify(params)]);
 		things.getThing("notification").callCallback("notify",["Called recordLocation","home"]);
 
 		return "done";
