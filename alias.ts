@@ -94,12 +94,17 @@ function aliasInit( things, hueFunc, helpers ){
 		});
 		alias.addCallback("update", ()=>{
 			return new Promise((resolve, reject)=>{
+				let toResolve="";
 				exec("git pull",(err, stdout, stderr)=>{
 					console.log("about to restart");
 					console.log(stdout);
-					resolve( 'exiting app '+stdout );
+					toResolve+=stdout;
 					exec("npm i",(err, stdout, stderr)=>{
+					toResolve+="\n"+stdout;
+					resolve( 'exiting app '+stdout );
 						exec("tsc app.ts --outDir outdir",(err, stdout, stderr)=>{
+							toResolve+="\n"+stdout;
+							resolve( 'exiting app '+stdout );
 							exec("pm2 restart all",(err, stdout, stderr)=>{});
 						});
 					});
