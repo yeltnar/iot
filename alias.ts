@@ -96,8 +96,10 @@ function aliasInit( things, hueFunc, helpers ){
 				console.log("about to restart");
 				console.log(stdout);
 				resolve( 'exiting app '+stdout );
-				exec("tsc app.ts --outDir outdir",(err, stdout, stderr)=>{
-					exec("pm2 restart all",(err, stdout, stderr)=>{});
+				exec("npm i",(err, stdout, stderr)=>{
+					exec("tsc app.ts --outDir outdir",(err, stdout, stderr)=>{
+						exec("pm2 restart all",(err, stdout, stderr)=>{});
+					});
 				});
 			});
 
