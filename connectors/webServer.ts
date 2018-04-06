@@ -4,8 +4,8 @@ const requestP = require("request-promise-native");
 const fs = require("fs");
 
 let webServerConfig;
-
 let things;
+let helpers;
 
 const data = {
 	"desk_socket":{
@@ -32,14 +32,20 @@ async function getThings( fileLocation ){
 	return things.toObj();
 }
 
-export function webServerInit( local_webServerConfig:object, local_things:Things ){//}catch(e){console.error(e);console.log("failed to call webServerInit");}
+async function getLogs( fileLocation ){
+	return await helpers.execPromise("pm2 logs --nostream --lines 100");
+}
+
+export function webServerInit( local_webServerConfig:object, local_things:Things, local_helpers ){//}catch(e){console.error(e);console.log("failed to call webServerInit");}
 	things = local_things;
+	helpers = local_helpers;
 	try{
 		webServerConfig = local_webServerConfig;
 
 		const file_server = things.createAddThing("web_server");
 		file_server.addCallback("get_file",getFile)
 		file_server.addCallback("get_things",getThings)
+		file_server.addCallback("get_logs",getLogs)
 	}catch(e){console.error(e);console.log("failed to call webServerInit");}
 	
 	return things;
