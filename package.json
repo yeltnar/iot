@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "clear;ts-node app.ts",
-    "start":"tsc app.ts --outDir outdir;pm2 start outdir/app.js;pm2 logs",
-    "postinstall":"npm i pm2 -g"
+    "start": "tsc app.ts --outDir outdir;pm2 start outdir/app.js;pm2 logs",
+    "postinstall": "npm i pm2 -g"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
     "config": "^1.29.4",
     "express": "^4.16.2",
     "mongoose": "^5.0.6",
+    "node-schedule": "^1.3.0",
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5",
     "ws": "^5.1.0"
