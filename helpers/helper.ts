@@ -63,7 +63,8 @@ let helpers = {
 		return new Promise((resolve, reject)=>{
 			resolve(helpers.tryToParse(data));
 		});
-	}
+	},
+	weather:{}
 };
 
 export {helpers}

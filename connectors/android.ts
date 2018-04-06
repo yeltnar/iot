@@ -28,10 +28,21 @@ export function androidInit( local_androidConfig:object, things:Things ){
 
 	async function recordLocation_home(params){
 
-		things.getThing("notification").callCallback("notify",["record home",JSON.stringify(params)]);
+		params = JSON.stringify(params) || "undefined";
+
+		things.getThing("notification").callCallback("notify",["record home",params]);
 		things.getThing("notification").callCallback("notify",["Called recordLocation","home"]);
 
-		return "done";
+		return "recordLocation_home";
+	}
+	async function recordLocation_away(params){
+
+		params = JSON.stringify(params) || "undefined";
+
+		things.getThing("notification").callCallback("notify",["record away",params]);
+		things.getThing("notification").callCallback("notify",["Called recordLocation","away"]);
+
+		return "recordLocation_away";
 	}
 
 	let pixel2xl = new Thing("pixel2xl", things);
@@ -40,6 +51,7 @@ export function androidInit( local_androidConfig:object, things:Things ){
 	});
 	let pixel2xl_location = new Thing("pixel2xl_location", things);
 	pixel2xl_location.addCallback("home",recordLocation_home);
+	pixel2xl_location.addCallback("away",recordLocation_home);
 	
 	return things;
 }
