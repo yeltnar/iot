@@ -1,5 +1,5 @@
 import * as requestP from "request-promise-native";
-import {Things, Thing} from "./class/thing";
+import {Things, Thing} from "../class/thing";
 
 let config={};
 let things:Things;
@@ -63,12 +63,14 @@ function loop( msToNextLoop=0 ){
 }
 
 function googleDriveInit(configIn, incomingThings:Things){
-	config = configIn;
 	things = incomingThings;
-	
-	//loop();
+	try{
+		config = configIn;
+		
+		//loop();
+	}catch(e){console.error(e);console.log("failed to call weatherInit")}
 
-	return;
+	return things;
 };
 
 export {googleDriveInit}

@@ -60,7 +60,9 @@ app.get ('/endpoints', getEndpoints);
 app.post ('/endpoints', getEndpoints);
 
 export function endpointsInit( config, inThings:Things ){
-	let port = config.port
-	things = inThings;
-	app.listen(port, () => console.log('Listening on port '+port+'!'));	
+	try{
+		let port = config.port
+		things = inThings;
+		app.listen(port, () => console.log('Listening on port '+port+'!'));	
+	}catch(e){console.error(e);console.log("failed to call endpointsInit")}
 }

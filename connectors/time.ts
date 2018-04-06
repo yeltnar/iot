@@ -24,13 +24,14 @@ async function updateTime(text=""){
 }
 
 export function timeInit( things:Things ){
+	try{
+		let time = new Thing("time", things);
+		time.getState = Date.now;
 
-	let time = new Thing("time", things);
-	time.getState = Date.now;
+		console.log(time.getState());
 
-	console.log(time.getState());
-
-	//updateTime();
+		//updateTime();
+	}catch(e){console.error(e);console.log("failed to call timeInit")}
 	
 	return things;
 }

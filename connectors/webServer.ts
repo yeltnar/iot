@@ -32,13 +32,15 @@ async function getThings( fileLocation ){
 	return things.toObj();
 }
 
-export function webServerInit( local_webServerConfig:object, local_things:Things ){
-	webServerConfig = local_webServerConfig;
+export function webServerInit( local_webServerConfig:object, local_things:Things ){//}catch(e){console.error(e);console.log("failed to call webServerInit");}
 	things = local_things;
+	try{
+		webServerConfig = local_webServerConfig;
 
-	const file_server = things.createAddThing("web_server");
-	file_server.addCallback("get_file",getFile)
-	file_server.addCallback("get_things",getThings)
+		const file_server = things.createAddThing("web_server");
+		file_server.addCallback("get_file",getFile)
+		file_server.addCallback("get_things",getThings)
+	}catch(e){console.error(e);console.log("failed to call webServerInit");}
 	
 	return things;
 }
