@@ -42,10 +42,10 @@ export function webServerInit( local_webServerConfig:object, local_things:Things
 	try{
 		webServerConfig = local_webServerConfig;
 
-		const file_server = things.createAddThing("web_server");
-		file_server.addCallback("get_file",getFile)
-		file_server.addCallback("get_things",getThings)
-		file_server.addCallback("get_logs",getLogs)
+		const web_server = things.createAddThing("web_server");
+		web_server.addCallback("get_file",getFile)
+		web_server.addCallback("get_things",getThings)
+		web_server.addCallback("get_logs",getLogs)
 	}catch(e){console.error(e);console.log("failed to call webServerInit");}
 	
 	return things;
