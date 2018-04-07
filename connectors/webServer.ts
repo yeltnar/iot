@@ -33,7 +33,7 @@ async function getThings( fileLocation ){
 }
 
 async function getLogs( fileLocation ){
-	return await helpers.execPromise("pm2 logs --nostream --lines 100");
+	return helpers.execPromise("pm2 logs --nostream --lines 100");
 }
 
 export function webServerInit( local_webServerConfig:object, local_things:Things, local_helpers ){//}catch(e){console.error(e);console.log("failed to call webServerInit");}
