@@ -5,5 +5,8 @@
 	"socket":{
 		"url":"ws://drew-iot.mybluemix.net/",// don't change this here. do it in local
 		"retryFrequency":1000
+	},
+	"helpers":{
+		"scheduler":{}
 	}
 }

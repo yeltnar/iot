@@ -43,8 +43,12 @@ function weatherInit(local_weatherConfig, things, helpers){
 		console.log("rise is "+rise.toString());
 		console.log("now is "+now.toString());
 		console.log("set is "+set.toString());
+		
+		let minute = parseInt(Math.random()*60); // dfaq, syntax checking?
+		let second = parseInt(Math.random()*60); // dfaq, syntax checking?
+		let hour = parseInt(Math.random()*2)+1; // dfaq, syntax checking?
 
-		helpers.scheduleAction({"hr":0,"min":0},async ()=>{
+		helpers.ScheduleHolder.addEvent({hour, minute, second}, async ()=>{
 
 			let {sunrise, sunset} = await getSunRiseSet();
 
@@ -55,8 +59,8 @@ function weatherInit(local_weatherConfig, things, helpers){
 			helpers.scheduleAction({"min":sunset.minute,"hr":sunset.hour},()=>{
 				sunThing.callCallback("down");
 			},false);
-
-		}, true);
+		
+		},"setup_weather")
 	})()
 
 	return {getSunRiseSet};
