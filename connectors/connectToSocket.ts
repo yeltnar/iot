@@ -39,9 +39,9 @@ function connectToSocketInit(socketConfig, things:Things){
 					let {thing, callback, params} = message;
 
 					if( thing!==undefined && callback!==undefined ){
-						console.log("thing "+thing)
-						console.log("callback "+callback)
-						console.log("params "+params)
+						// console.log("thing "+thing)
+						// console.log("callback "+callback)
+						// console.log("params "+params)
 						things.getThing(thing).callCallback(callback, params)
 						.then((data)=>{
 							let obj = {
@@ -64,7 +64,7 @@ function connectToSocketInit(socketConfig, things:Things){
 		});
 
 		ws.on('close', function(data){
-			console.log("\n\n\nsocket closed "+data+" - "+(new Date()).toString());
+			console.log("socket closed "+data+" - "+(new Date()).toString());
 			connectToSocketInit(socketConfig, things);
 		});
 	}catch(e){console.error(e);console.log("failed to call connectToSocketInit")}

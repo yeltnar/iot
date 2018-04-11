@@ -112,7 +112,8 @@ class Thing{
 			}).catch((err)=>{console.error(err);})
 
 		}else{
-			throw "No function defined for name:"+name+" state:"+state;
+			let errTxt = "No function defined for name:"+this.name+" state:"+state;
+			console.error(errTxt);
 		}
 	}
 	// addWatcher(state, otherStates, action){
