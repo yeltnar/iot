@@ -42,7 +42,7 @@ try{
 	nestInit(config.nest, things);
 	carInit(config.car, things);
 	webServerInit(config.fileServer, things, helpers);
-	androidInit(config.ifttt, things); // TODO make android config
+	androidInit(config.ifttt, things, helpers); // TODO make android config
 	timeInit(things); // TODO make android config
 	let hueFunc = hueInit(config.hue, things, helpers);
 	googleDriveInit(config.googleDrive, things);

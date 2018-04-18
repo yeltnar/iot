@@ -179,7 +179,7 @@ function aliasInit( things, hueFunc, helpers ){
 			//date > ~/bm_iot_keep_alive/date.txt
 				try{
 					await helpers.execPromise("chmod 700 helpers/keep_bm_alive.sh");
-					await helpers.execPromise("./helpers/keep_bm_alive.sh");
+					await helpers.execPromiseFile("helpers/keep_bm_alive.sh");
 					console.log("successfully keeping bm alive");
 					return "successfully keeping bm alive";
 				}catch(e){

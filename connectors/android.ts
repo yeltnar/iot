@@ -3,6 +3,7 @@ import {Things, Thing} from "../class/thing";
 
 let androidConfig;
 let things;
+let helpers;
 
 function sendToTasker(text=""){
 
@@ -20,6 +21,25 @@ function sendToTasker(text=""){
 
 	//return requestP(options);
 
+}
+
+async function randomWallpaper(){
+	 let search = await helpers.reddit.search("earthporn", "top", 15, "day");
+	 let usedImg = (await getUsedPhoneWallpapers()) || []; // TODO actually set this
+
+	 search = search.data.children.map(ele=>ele.data.url);
+	 search = search.filter( e => !usedImg.includes(e) )
+
+	 console.log(search);
+}
+
+async function setPhoneWallpaper(){}
+
+async function getUsedPhoneWallpapers(){
+	let toRet = await helpers.fsPromise.readFile("data/usedPhoneWallpapers.json");
+	console.log("toRet");
+	console.log(toRet);
+	return toRet;
 }
 
 async function recordLocation_home(params){
@@ -41,9 +61,10 @@ async function recordLocation_away(params){
 	return "recordLocation_away";
 }
 
-export function androidInit( local_androidConfig:object, local_things:Things ){
+export function androidInit( local_androidConfig:object, local_things:Things, local_helpers ){
 	things = local_things
 	androidConfig = local_androidConfig;
+	helpers = local_helpers
 
 	try{
 		let pixel2xl = new Thing("pixel2xl", things);
@@ -52,8 +73,10 @@ export function androidInit( local_androidConfig:object, local_things:Things ){
 		});
 		let pixel2xl_location = new Thing("pixel2xl_location", things);
 		pixel2xl_location.addCallback("home",recordLocation_home);
-		pixel2xl_location.addCallback("away",recordLocation_home);
+		pixel2xl_location.addCallback("away",recordLocation_away);
 	}catch(e){console.error(e);console.log("failed to call androidInit")}
+
+	randomWallpaper()
 	
 	return local_things;
 }
