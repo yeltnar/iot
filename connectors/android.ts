@@ -76,7 +76,7 @@ export function androidInit( local_androidConfig:object, local_things:Things, lo
 		pixel2xl_location.addCallback("away",recordLocation_away);
 	}catch(e){console.error(e);console.log("failed to call androidInit")}
 
-	randomWallpaper()
+	//randomWallpaper()
 	
 	return local_things;
 }
