@@ -5,9 +5,21 @@ let iftttConfig;
 
 let things;
 
-function pushNotification(title="", message="", link=""){
+function pushNotification(titleOrObj, message, link){
 
 	//console.log(`pushNotification(title="", message="", link=""){`)
+	let title;
+
+	console.log("typeof titleOrObj");
+	console.log(typeof titleOrObj);
+
+	if( typeof titleOrObj === "object" ){
+		title   = titleOrObj.title
+		message = titleOrObj.message
+		link    = titleOrObj.link
+	}else{ // assume string
+		title = titleOrObj
+	}
 
 	let url = iftttConfig.first+iftttConfig.push_notification+iftttConfig.second
 

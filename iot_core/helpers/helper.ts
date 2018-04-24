@@ -66,8 +66,8 @@ function helpersInit(config){
 					console.log("read file")
 					return new Promise((resolve, reject)=>{
 						fs.readFile(path, options, (err, data)=>{
-							if(err){return reject(data);}
-							resolve(data);
+							if(err){return reject(err);}
+							resolve(data.toString());
 						});
 					});
 				},

@@ -89,7 +89,7 @@ function aliasInit( things, hueFunc, helpers ){
 			this.count++;
 
 			return new Promise((resolve, reject)=>{
-				resolve(this.count); 
+				resolve(this.count+""); 
 			});
 		});
 		alias.addCallback("update", ()=>{
@@ -174,19 +174,6 @@ function aliasInit( things, hueFunc, helpers ){
 				let numberOfTimes = params[0] || 3;
 				return things.getThing("alias").callCallback("flash_n_times",[numberOfTimes]);
 		});
-		alias.addCallback("keep_bm_running",async ()=>{
-			let dir = "~/bm_iot_keep_alive";
-			//date > ~/bm_iot_keep_alive/date.txt
-				try{
-					await helpers.execPromise("chmod 700 helpers/keep_bm_alive.sh");
-					await helpers.execPromiseFile("helpers/keep_bm_alive.sh");
-					console.log("successfully keeping bm alive");
-					return "successfully keeping bm alive";
-				}catch(e){
-					console.error(e);
-				}
-			
-		})
 
 		alias.addCallback("version", ()=>{
 			return helpers.execPromise("git rev-parse HEAD");

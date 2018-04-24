@@ -30,6 +30,7 @@ async function randomWallpaper(){
 	 search = search.data.children.map(ele=>ele.data.url);
 	 search = search.filter( e => !usedImg.includes(e) )
 
+	 console.log("android walpaper serach...");
 	 console.log(search);
 }
 
@@ -37,8 +38,6 @@ async function setPhoneWallpaper(){}
 
 async function getUsedPhoneWallpapers(){
 	let toRet = await helpers.fsPromise.readFile("data/usedPhoneWallpapers.json");
-	console.log("toRet");
-	console.log(toRet);
 	return toRet;
 }
 
@@ -76,7 +75,7 @@ export function androidInit( local_androidConfig:object, local_things:Things, lo
 		pixel2xl_location.addCallback("away",recordLocation_away);
 	}catch(e){console.error(e);console.log("failed to call androidInit")}
 
-	//randomWallpaper()
+	randomWallpaper()
 	
 	return local_things;
 }

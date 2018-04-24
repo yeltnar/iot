@@ -13,10 +13,11 @@ import {hueInit} from "./connectors/hue";
 import {nestInit} from "./connectors/nest";
 import {aliasInit} from "./alias"; // TODO move to better palce
 //networking 
-import {connectToSocketInit} from "./connectors/connectToSocket"; // TODO move this file to better location
+//import {connectToSocketInit} from "./websocket/connectToSocket"; // moved out of this node project
 import {endpointsInit} from "./endpoints/endpoints";
 //complementary services
 import {stateListenerInit} from "./stateListener/main";
+import {keepBluemixAliveInit} from "./helpers/keepBluemixAlive";
 import {weatherInit} from "./externalServices/weather"; // TODO move to data watchers
 import {helpersInit} from "./helpers/helper";
 import {selfParseInit} from "./helpers/selfParse";
@@ -32,8 +33,8 @@ try{
 
 // set up networking
 try{
-	endpointsInit(config.express, things);
-	connectToSocketInit(config.socket, things);
+	endpointsInit(config.express, things, helpers);
+	//connectToSocketInit(config.socket, things);
 }catch(e){console.error("networking setup failed");}
 
 // set up connecters
@@ -53,14 +54,8 @@ try{
 
 //keep bluemix alive
 try{
-	let minute = parseInt(Math.random() * 60); // dfaq, syntax checking?
-	let second = parseInt(Math.random() * 60); // dfaq, syntax checking?
-	let hour = parseInt(Math.random() * 3)+2; // dfaq, syntax checking?
-	
-	ScheduleHolder.addEvent({hour, minute, second},()=>{
-		// TODO actually do the thing
-	},"keep_bm_alive");
-}catch(e){}
+	//keepBluemixAliveInit(things, helpers);
+}catch(e){console.error("keepBluemixAliveInit setup failed");}
 
 // (async()=>{
 
