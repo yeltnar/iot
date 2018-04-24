@@ -56,7 +56,8 @@ function connectToSocketInit(socketConfig){
 						"uri":host+data.path
 					}
 
-					if(data.body!==undefined){
+					// TODO check if other methods don't have body
+					if( data.body!==undefined && data.body!=={} && data.method.toLowerCase() !== "get" ){
 						if( typeof data.body === "object" ){
 							// console.log("------> data.body")
 							// console.log(data.body)
@@ -66,7 +67,7 @@ function connectToSocketInit(socketConfig){
 							obj.body = data.body;
 						}
 					}
-					if(data.query!==undefined){
+					if(data.query!==undefined && data.query!=={}){
 						if( typeof data.query === "object" ){
 							// console.log("------> data.query")
 							// console.log(data.query)
@@ -111,7 +112,7 @@ function connectToSocketInit(socketConfig){
 
 						console.log("options is "+JSON.stringify(options));
 						requestP(options).catch((e)=>{console.error(e)}) // TODO make this a module
-						console.error("ERROR sending "+JSON.stringify(newData));
+						console.error("ERROR sending "+JSON.stringify(obj));
 						ws.send(JSON.stringify(newData));
 
 					});

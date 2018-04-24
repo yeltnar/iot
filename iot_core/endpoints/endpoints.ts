@@ -18,23 +18,26 @@ const setDeviceState = function(req, res, next){
 	let params = req.body.params || req.query.params;
 
 
-	console.log("typeof req.query")
-	console.log(typeof req.query)
-	console.log(req.query)
+	// console.log("typeof req.query")
+	// console.log(typeof req.query)
+	// console.log(req.query)
 
 	params = helpers.tryToParse(params);
 
-	console.log("---typeof params")
-	console.log(typeof params)
-	console.log( params)
+	// console.log("---typeof params")
+	// console.log(typeof params)
+	// console.log( params)
 
 	console.log("setDeviceState endpoint called");
 
 	things.getThing(device).callCallback(state, params)
 	.then((data)=>{
+		if( typeof data === "object" ){
+			data = JSON.stringify(data);
+		}
 		res.end(data);
 	}).catch((err)=>{
-		console.log("res.status(500).send(err); endpoints 37")
+		console.log("endpoints 38 "+JSON.stringify(err));
 		res.status(500).send(err);
 	})
 }
