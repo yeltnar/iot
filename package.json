@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "clear;ts-node iot_core/app.ts",
-    "start": "",
+    "start": "tsc iot_core/app.ts  --outDir outdir;pm2 start outdir/app.js;pm2 logs;",
+    "start_socket":"tsc websocket/connectToSocket.ts  --outDir outdir;pm2 start outdir/connectToSocket.js;pm2 logs;",
     "postinstall": "npm i pm2 -g"
   },
   "repository": {

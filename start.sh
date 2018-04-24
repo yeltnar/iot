@@ -1,7 +1,7 @@
-#tsc app.ts  --outDir outdir;
-tsc websocket/connectToSocket.ts --outDir outdir_websocket;
+tsc iot_core/app.ts  --outDir outdir;
+pm2 start outdir/app.js;
 
-#pm2 start outdir/app.js;
-pm2 start outdir/websocket/connectToSocket.js;
+tsc websocket/connectToSocket.ts  --outDir outdir;
+pm2 start outdir/connectToSocket.js;
 
-pm2 logs
+pm2 logs;
