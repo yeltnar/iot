@@ -34,6 +34,7 @@ const setDeviceState = function(req, res, next){
 	.then((data)=>{
 		res.end(data);
 	}).catch((err)=>{
+		console.log("res.status(500).send(err); endpoints 37")
 		res.status(500).send(err);
 	})
 }
