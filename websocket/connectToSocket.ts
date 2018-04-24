@@ -96,7 +96,8 @@ function connectToSocketInit(socketConfig){
 					}).catch((error)=>{
 						let newData = {error, "uid":data.uid}
 						let title = "ERROR sending request";
-						let message = data.ip;
+						let ip = data.ip;
+						let path = data.path;
 
 						var options = { 
 							method: 'GET',
@@ -104,7 +105,7 @@ function connectToSocketInit(socketConfig){
 						  	qs:{ 
 						   		group: 'home_pi',
 						     	port: '3001',
-						     	params:`{"title":"${title}","message":"source IP ${message}"}`
+						     	params:`{"title":"${title}","message":"source IP ${ip} path ${path}"}`
 						     } 
 						 };
 
