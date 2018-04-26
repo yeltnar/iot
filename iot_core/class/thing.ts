@@ -8,6 +8,7 @@ class Thing{
 	callbacks: object;
 	thingsParent: Things;
 	afterCallbacks: object;
+	attributeTable:object={};
 
 	constructor(name:string, thingsParent:Things, state?:string ){
 		this.thingsParent = thingsParent;
@@ -19,13 +20,13 @@ class Thing{
 	toString(thingSep="\n", keySep=" "){
 		return "Name:"+this.name+";"+keySep+"State:"+this.state+";"+keySep+"Callbacks:"+JSON.stringify(Object.keys(this.callbacks))+keySep+"Parent name:"+this.thingsParent.name;
 	}
-	addCallback( state:string, f:Function, recordState=true, expects?:object ){
-		if( this.callbacks[state] === undefined){
-			// this.thingsParent.addStateChangeCallback( this.name, state ); // sets it up if not
-			this.callbacks[state] = f;
-			this.callbacks[state].expects = expects;
+	addCallback( callbackName:string, f:Function, recordState=true, expects?:object ){
+		if( this.callbacks[callbackName] === undefined){
+			// this.thingsParent.addStateChangeCallback( this.name, callbackName ); // sets it up if not
+			this.callbacks[callbackName] = f;
+			this.callbacks[callbackName].expects = expects;
 		}else{
-			throw "'"+state+"' has already been set for "+this.name;
+			throw "'"+callbackName+"' has already been set for "+this.name;
 		}
 	}
 	addUrlCallback( name:string, options:object, inFunct=(data)=>{} ){
@@ -45,15 +46,22 @@ class Thing{
 			});	
 		});
 	}
-	addAfterCallback( state:string, f:Function, expects?:object ):Thing{
+	addAfterCallback( callbackName:string, f:Function, expects?:object ):Thing{
 
-		if(this.callbacks[state] !== undefined){
-			this.afterCallbacks[state] = this.afterCallbacks[state] || [];
-			this.afterCallbacks[state].push(f);
+		if(this.callbacks[callbackName] !== undefined){
+			this.afterCallbacks[callbackName] = this.afterCallbacks[callbackName] || [];
+			this.afterCallbacks[callbackName].push(f);
 		}else{
-			throw new Error("state "+state+" not defined. Cannot call 'addAfterCallback'");
+			throw new Error("callbackName "+callbackName+" not defined. Cannot call 'addAfterCallback'");
 		}
 		return this;
+	}
+	setAttribute( attribute:string, state:string ){
+		this.attributeTable[attribute]=this.attributeTable[attribute]!==undefined?this.attributeTable[attribute]:{};
+		this.attributeTable[attribute]=state;
+	}
+	getAttribute( attribute:string ):string{
+		return this.attributeTable[attribute];
 	}
 	callAfterCallbacks( state:string ){
 		if( this.afterCallbacks[state]!==undefined ){
