@@ -30,16 +30,23 @@ const setDeviceState = function(req, res, next){
 
 	console.log("setDeviceState endpoint called");
 
-	things.getThing(device).callCallback(state, params)
-	.then((data)=>{
-		if( typeof data === "object" ){
-			data = JSON.stringify(data);
-		}
-		res.end(data);
-	}).catch((err)=>{
-		console.log("endpoints 38 "+JSON.stringify(err));
-		res.status(500).send(err);
-	})
+	let thing = things.getThing(device);
+	if(thing!==undefined){
+		thing.callCallback(state, params)
+		.then((data)=>{
+			if( typeof data === "object" ){
+				data = JSON.stringify(data);
+			}
+			res.end(data);
+		}).catch((err)=>{
+			console.log("endpoints 38 "+JSON.stringify(err));
+			res.status(500).send(err);
+		})
+	}else{
+		res.status(500).send("thing "+device+" not definded");
+	}
+
+	
 }
 
 const getEndpoints = function(req, res, next){

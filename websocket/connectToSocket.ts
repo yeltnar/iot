@@ -46,7 +46,7 @@ function connectToSocketInit(socketConfig){
 					let host = data.body.request_host || data.query.request_host || socketConfig.default_http_host;
 					data.host = host;
 
-					if(port!==undefined){
+					if(port!==undefined&&port!=""&&port!=="undefined"){
 						host = host+port;
 						console.log("changed host "+host);
 					}
@@ -80,6 +80,25 @@ function connectToSocketInit(socketConfig){
 
 					console.log("obj")
 					console.log(obj)
+
+					if(data.legacy===true){
+						let title = "Legacy request!";
+						let ip = data.ip;
+						let path = data.path;
+
+						var options = { 
+							method: 'GET',
+						  	url: 'http://127.0.0.1:3001/set/notification/notify',
+						  	qs:{ 
+						   		group: 'home_pi',
+						     	port: '3001',
+						     	params:`{"title":"${title}","message":"source IP ${ip} path ${path}"}`
+						     } 
+						 };
+
+						requestP(options).catch((e)=>{console.error(e)}) // TODO make this a module
+
+					}
 
 					requestP(obj)
 					.then((responseData)=>{
