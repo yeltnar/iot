@@ -40,12 +40,11 @@ function connectToSocketInit(socketConfig){
 					console.log("data is "+data);
 					data = JSON.parse(data);
 
-
 					if(data.message && typeof data.message==="string"){
 						data.message=JSON.parse(data.message);
 					}
 
-					if(data.message.error!==undefined){
+					if(data.message && data.message.error!==undefined){
 						console.log("throwing away error message");
 						console.log("data.message.error is "+JSON.stringify(data.message.error));
 						return
@@ -112,8 +111,7 @@ function connectToSocketInit(socketConfig){
 					}
 					// TODO add any more?
 
-					console.log("obj")
-					console.log(obj)
+					console.log("obj for requestP "+JSON.stringify(obj))
 
 					if(data.legacy===true){
 						let title = "Legacy request!";
