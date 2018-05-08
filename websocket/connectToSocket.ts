@@ -40,10 +40,33 @@ function connectToSocketInit(socketConfig){
 					console.log("data is "+data);
 					data = JSON.parse(data);
 
-					let port = data.body.port || data.query.port || socketConfig.default_http_port;
-					port = port===""?"":":"+port;
+					let port;
+					if(data.body.port){
+						port=data.body.port;
+						console.log("setting port to data.body.port");
+					}
+					else if(data.query.port){
+						port=data.query.port;
+						console.log("setting port to data.query.port");
+					}
+					else{
+						port=socketConfig.default_http_port;
+						console.log("setting port to socketConfig.default_http_port");
+					}
 
-					let host = data.body.request_host || data.query.request_host || socketConfig.default_http_host;
+					let host;
+					if(data.body.request_host){
+						host=data.body.request_host
+						console.log("setting host to data.body.request_host")
+					}else if(data.query.request_host){
+						host=data.query.request_host
+						console.log("setting host to data.query.request_host")
+					}else{
+						host=socketConfig.default_http_host;
+						console.log("setting host to socketConfig.default_http_")
+					}
+
+
 					data.host = host;
 
 					if(port!==undefined&&port!=""&&port!=="undefined"){
@@ -115,7 +138,7 @@ function connectToSocketInit(socketConfig){
 
 					}).catch((error)=>{
 						let newData = {error, "uid":data.uid}
-						let title = "ERROR sending request";
+						let title = "Error sending request";
 						let ip = data.ip;
 						let path = data.path;
 

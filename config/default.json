@@ -10,5 +10,10 @@
 	},
 	"helpers":{
 		"scheduler":{}// don't put stuff here; it is to be set later...prob shouldn't do that
+	},
+	"serverless":{
+		"express":{
+			"port":3002
+		}
 	}
 }
