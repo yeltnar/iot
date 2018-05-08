@@ -40,6 +40,17 @@ function connectToSocketInit(socketConfig){
 					console.log("data is "+data);
 					data = JSON.parse(data);
 
+
+					if(data.message && typeof data.message==="string"){
+						data.message=JSON.parse(data.message);
+					}
+
+					if(data.message.error!==undefined){
+						console.log("throwing away error message");
+						console.log("data.message.error is "+JSON.stringify(data.message.error));
+						return
+					}
+
 					let port;
 					if(data.body.port){
 						port=data.body.port;
@@ -154,14 +165,14 @@ function connectToSocketInit(socketConfig){
 
 						console.log("options is "+JSON.stringify(options));
 						requestP(options).catch((e)=>{console.error(e)}) // TODO make this a module
-						console.error("ERROR sending "+JSON.stringify(obj));
+						console.error("157 ERROR sending "+JSON.stringify(obj));
 						ws.send(JSON.stringify(newData));
 
 					});
 					
 				}catch(error){
 					data = {error, "uid":data.uid}
-					console.error("ERROR sending "+JSON.stringify(data));
+					console.error("164 ERROR sending "+JSON.stringify(data));
 					ws.send(JSON.stringify(data));
 				}
 			}else{
