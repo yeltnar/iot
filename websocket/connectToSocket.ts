@@ -52,16 +52,12 @@ function connectToSocketInit(socketConfig){
 
 					let port;
 					if(data.body.port){
-						port=data.body.port;
+						port=":"+data.body.port;
 						console.log("setting port to data.body.port");
 					}
 					else if(data.query.port){
-						port=data.query.port;
+						port=":"+data.query.port;
 						console.log("setting port to data.query.port");
-					}
-					else{
-						port=socketConfig.default_http_port;
-						console.log("setting port to socketConfig.default_http_port");
 					}
 
 					let host;
