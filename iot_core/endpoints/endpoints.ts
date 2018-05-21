@@ -28,7 +28,7 @@ const setDeviceState = function(req, res, next){
 	// console.log(typeof params)
 	// console.log( params)
 
-	console.log("setDeviceState endpoint called");
+	console.log("setDeviceState endpoint called req.originalUrl ->"+req.originalUrl+"<-");
 
 	let thing = things.getThing(device);
 	if(thing!==undefined){

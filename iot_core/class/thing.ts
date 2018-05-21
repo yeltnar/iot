@@ -118,7 +118,7 @@ class Thing{
 			return toReturn.then(async (data)=>{
 				this.callAfterCallbacks(state);
 				return data;
-			}).catch((err)=>{console.error("thing 112 "+JSON.stringify(err));})
+			}).catch((err)=>{console.error("thing 121 "+JSON.stringify(err));})
 
 		}else{
 			let errTxt = "No function defined for name:"+this.name+" state:"+state;

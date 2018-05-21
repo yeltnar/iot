@@ -121,7 +121,7 @@ function aliasInit( things, hueFunc, helpers ){
 
 			});
 		});
-		alias.addCallback("flash_3_times",(...params)=>{
+		alias.addCallback("flash_3_times",async (...params)=>{
 			return things.getThing("alias").callCallback("flash_n_times",[3]);
 		})
 		alias.addCallback("flash_n_times",(...params)=>{
@@ -165,6 +165,9 @@ function aliasInit( things, hueFunc, helpers ){
 				Promise.all( pArr ) // TODO get all lights, mebe?
 				.then(()=>{
 					resolve();
+				})
+				.catch((err)=>{
+					reject(err);
 				})
 			
 			});

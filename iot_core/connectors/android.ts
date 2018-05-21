@@ -30,8 +30,8 @@ async function randomWallpaper(){
 	 search = search.data.children.map(ele=>ele.data.url);
 	 search = search.filter( e => !usedImg.includes(e) )
 
-	 console.log("android walpaper serach...");
-	 console.log(search);
+	 // console.log("android walpaper serach...");
+	 // console.log(search);
 }
 
 async function setPhoneWallpaper(){}
